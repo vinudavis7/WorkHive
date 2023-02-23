@@ -1,0 +1,12 @@
+D:\Works\System design project\WorkHiveApi\Entities\bin\Debug\net6.0\Entities.deps.json
+D:\Works\System design project\WorkHiveApi\Entities\bin\Debug\net6.0\Entities.dll
+D:\Works\System design project\WorkHiveApi\Entities\bin\Debug\net6.0\Entities.pdb
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\Entities.csproj.AssemblyReference.cache
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\Entities.AssemblyInfoInputs.cache
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\Entities.AssemblyInfo.cs
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\Entities.csproj.CoreCompileInputs.cache
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\Entities.dll
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\refint\Entities.dll
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\Entities.pdb
+D:\Works\System design project\WorkHiveApi\Entities\obj\Debug\net6.0\ref\Entities.dll

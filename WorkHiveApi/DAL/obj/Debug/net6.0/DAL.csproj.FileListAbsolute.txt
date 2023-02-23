@@ -1,0 +1,17 @@
+D:\Works\System design project\WorkHiveApi\DAL\bin\Debug\net6.0\DAL.deps.json
+D:\Works\System design project\WorkHiveApi\DAL\bin\Debug\net6.0\DAL.runtimeconfig.json
+D:\Works\System design project\WorkHiveApi\DAL\bin\Debug\net6.0\DAL.dll
+D:\Works\System design project\WorkHiveApi\DAL\bin\Debug\net6.0\DAL.pdb
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.csproj.AssemblyReference.cache
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.AssemblyInfoInputs.cache
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.AssemblyInfo.cs
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.csproj.CoreCompileInputs.cache
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.dll
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\refint\DAL.dll
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.pdb
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.genruntimeconfig.cache
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\ref\DAL.dll
+D:\Works\System design project\WorkHiveApi\DAL\bin\Debug\net6.0\Entities.dll
+D:\Works\System design project\WorkHiveApi\DAL\bin\Debug\net6.0\Entities.pdb
+D:\Works\System design project\WorkHiveApi\DAL\obj\Debug\net6.0\DAL.csproj.CopyComplete

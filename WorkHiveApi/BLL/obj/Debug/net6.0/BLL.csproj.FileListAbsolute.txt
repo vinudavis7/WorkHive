@@ -1,0 +1,17 @@
+D:\Works\System design project\WorkHiveApi\BLL\bin\Debug\net6.0\BLL.deps.json
+D:\Works\System design project\WorkHiveApi\BLL\bin\Debug\net6.0\BLL.dll
+D:\Works\System design project\WorkHiveApi\BLL\bin\Debug\net6.0\BLL.pdb
+D:\Works\System design project\WorkHiveApi\BLL\bin\Debug\net6.0\DAL.dll
+D:\Works\System design project\WorkHiveApi\BLL\bin\Debug\net6.0\Entities.dll
+D:\Works\System design project\WorkHiveApi\BLL\bin\Debug\net6.0\DAL.pdb
+D:\Works\System design project\WorkHiveApi\BLL\bin\Debug\net6.0\Entities.pdb
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\BLL.csproj.AssemblyReference.cache
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\BLL.AssemblyInfoInputs.cache
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\BLL.AssemblyInfo.cs
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\BLL.csproj.CoreCompileInputs.cache
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\BLL.csproj.CopyComplete
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\BLL.dll
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\refint\BLL.dll
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\BLL.pdb
+D:\Works\System design project\WorkHiveApi\BLL\obj\Debug\net6.0\ref\BLL.dll
