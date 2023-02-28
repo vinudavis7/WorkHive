@@ -12,8 +12,8 @@ namespace Entities
         [Key]
         public int UserId { get; set; }
 
-        public string companyName { get; set; }
+        public string CompanyName { get; set; }
 
-        public string website { get; set; }
+        public string Website { get; set; }
     }
 }
