@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Repository.Interface
 {
-    public  interface IUserRepository
+    public  interface IJobRepository
     {
-        public List<Users> GetUsers();
+        public List<Jobs> GetJobs();
     }
 }

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Repository.Interface
+namespace BLL.Interface
 {
-    public  interface IUserRepository
+    public  interface IJobService
     {
-        public List<Users> GetUsers();
+    public List<Jobs> GetJobs();
     }
 }

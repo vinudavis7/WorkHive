@@ -1,5 +1,6 @@
 ﻿using DAL.Repository.Interface;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +9,20 @@ using System.Threading.Tasks;
 
 namespace DAL.Repository
 {
-    public class UserRepository : IUserRepository
+    public class JobRepository : IJobRepository
     {
         private readonly AppDbContext _dbContext;
 
-        public  UserRepository(AppDbContext dbContext)
+        public JobRepository(AppDbContext dbContext)
             {
               _dbContext = dbContext;
             }
-       public  List<Users> GetUsers()
+       public  List<Jobs> GetJobs()
         {
             try
             {
-                return _dbContext.Users.ToList();
+                return _dbContext.Jobs.Include(b => b.Category).Include(b => b.Client).ToList();
+               // return _dbContext.Jobs.Include("Categories").ToList();
             }
             catch(Exception ex)
             {

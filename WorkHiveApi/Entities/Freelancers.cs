@@ -1,30 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Freelancers
+    [Table("Freelancers")]
+    public class Freelancers:Users
     {
-        [Key]
-        public int freelancerId { get; set; }
+        public string Designation { get; set; }
 
-        public string title { get; set; }
+        public string Description { get; set; }
 
-        public string description { get; set; }
+        public string Portfolio { get; set; }
 
-        public string portfolio { get; set; }
+        public string Experience { get; set; }
 
-        public string experience { get; set; }
+        public double HourlyRate { get; set; }
 
-        public double hourlyRate { get; set; }
-
-        public string skills { get; set; }
-
-
-
+        public string Skills { get; set; }
     }
 }

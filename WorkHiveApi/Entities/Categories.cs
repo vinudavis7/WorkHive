@@ -11,8 +11,7 @@ namespace Entities
     public class Categories
     {
         [Key]
-        public int categoryId { get; set; }
-        // [ForeignKey("category_name")]
-        public string categoryName { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
     }
 }

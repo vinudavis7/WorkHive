@@ -11,15 +11,18 @@ namespace Entities
     public class Reviews
     {
         [Key]
-        public int reviewId { get; set; }
-        [ForeignKey("clientId")]
-        public int clientId { get; set; }
-        [ForeignKey("freelancerId")]
-        public int freelancerId { get; set; }
+        public int ReviewId { get; set; }
 
-        public string review { get; set; }
-        //public
+        public int ClientId { get; set; }
+        public int FreelancerId { get; set; }
+
+        public string Review { get; set; }
+        public string Rating { get; set; }
+
         public DateTime DateCreated { get; set; }
-
+        [ForeignKey("ClientId")]
+        public Clients Client { get; set; }
+        [ForeignKey("FreelancerId")]
+        public Freelancers Freelancer { get; set; }
     }
 }

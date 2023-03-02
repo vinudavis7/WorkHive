@@ -22,8 +22,11 @@ builder.Services.AddSwaggerGen();
 
 //Add repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+
 //Add services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IJobService, JobService>();
 
 
 

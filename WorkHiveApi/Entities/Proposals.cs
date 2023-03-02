@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,21 +10,23 @@ namespace Entities
 {
     public class Proposals
     {
-        public int proposalId { get; set; }
+        [Key]
+        public int ProposalId { get; set; }
+ 
+        public int JobId { get; set; }
 
-        [ForeignKey("jobId")]
-        public int jobId { get; set; }
+        public int FreelancerId { get; set; }
 
-        [ForeignKey("freelancerId")]
-        public int freelancerId { get; set; }
+        public string ProposalDescription { get; set; }
 
-        public string proposalText { get; set; }
-
-        public string proposalAttachment { get; set; }
+        public string Attachment { get; set; }
 
         public DateTime DateSubmitted { get; set; }
 
-
+        [ForeignKey("JobId")]
+        public Jobs Job { get; set; }
+        [ForeignKey("FreelancerId")]
+        public Freelancers Freelancer { get; set; }
 
     }
 }

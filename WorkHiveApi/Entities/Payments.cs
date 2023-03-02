@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,17 @@ namespace Entities
 {
     public class Payments
     {
-        public int paymentId { get; set; }
+        [Key]
+        public int PaymentId { get; set; }
 
-        [ForeignKey("contractId")]
-        public int contractId { get; set; }
-        public int amount { get; set; }
+        public int ContractId { get; set; }
 
-        public string paymentMethod { get; set; }
+        public int Amount { get; set; }
 
-        public DateTime paymentDate { get; set; }
+        public string PaymentMethod { get; set; }
+
+        public DateTime PaymentDate { get; set; }
+        [ForeignKey("ContractId")]
+        public Contracts Contract { get; set; }
     }
 }
