@@ -19,16 +19,17 @@ namespace WorkHiveApi.Controllers
         }
         // GET: api/<JobController>
         [HttpGet]
-        public IEnumerable<Jobs> Get()
+        public   IEnumerable<Jobs> Get()
         {
-            return _jobService.GetJobs();
+            return  _jobService.GetJobs();
         }
 
         // GET api/<JobController>/5
         [HttpGet("{id}")]
         public Jobs Get(int id)
         {
-            return _jobService.GetJobDetails(id);
+            var details = _jobService.GetJobDetails(id);
+            return details;
         }
 
         // POST api/<JobController>
