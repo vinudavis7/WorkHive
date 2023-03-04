@@ -30,5 +30,16 @@ namespace BLL
                 throw ex;
             }
         }
+        public Jobs GetJobDetails(int jobId)
+        {
+            try
+            {
+                return _jobRepository.GetJobDetails(jobId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -29,5 +29,16 @@ namespace DAL.Repository
                 throw ex;
             }
         }
+        public Jobs GetJobDetails(int jobId)
+        {
+            try
+            {
+                return _dbContext.Jobs.Where(x => x.JobId == jobId).Include(b => b.Category).Include(b => b.Client).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

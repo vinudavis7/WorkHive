@@ -10,5 +10,7 @@ namespace BLL.Interface
     public  interface IJobService
     {
     public List<Jobs> GetJobs();
+        public Jobs GetJobDetails(int jobId);
+
     }
 }

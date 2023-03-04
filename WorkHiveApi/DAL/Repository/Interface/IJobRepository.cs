@@ -10,5 +10,7 @@ namespace DAL.Repository.Interface
     public  interface IJobRepository
     {
         public List<Jobs> GetJobs();
+        public Jobs GetJobDetails(int jobId);
+
     }
 }

@@ -26,9 +26,9 @@ namespace WorkHiveApi.Controllers
 
         // GET api/<JobController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Jobs Get(int id)
         {
-            return "value";
+            return _jobService.GetJobDetails(id);
         }
 
         // POST api/<JobController>
