@@ -11,52 +11,56 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class JobService:IJobService
+    public class ProposalService:IProposalService
     {
-        private readonly IJobRepository _jobRepository;
+        private readonly IProposalRepository _proposalRepository;
 
-        public JobService(IJobRepository jobRepository)
+        public ProposalService(IProposalRepository proposalRepository)
         {
-            _jobRepository = jobRepository;
+            _proposalRepository = proposalRepository;
         }
-        public List<Job> GetJobs()
+      
+       
+       
+      
+        public List<Proposal> GetProposals()
         {
             try
             {
-                return _jobRepository.GetJobs();
+                return _proposalRepository.GetProposals();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public Job GetJobDetails(int jobId)
+        public Proposal GetProposalDetails(int proposalId)
         {
             try
             {
-                return _jobRepository.GetJobDetails(jobId);
+                return _proposalRepository.GetProposalDetails(proposalId);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public Job CreateJob(Job job)
+        public Proposal CreateProposal(Proposal proposal)
         {
             try
             {
-                return _jobRepository.CreateJob(job);
+                return _proposalRepository.CreateProposal(proposal);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public Job UpdateJob(Job job)
+        public Proposal UpdateProposal(Proposal proposal)
         {
             try
             {
-                return _jobRepository.UpdateJob(job);
+                return _proposalRepository.UpdateProposal(proposal);
             }
             catch (Exception ex)
             {

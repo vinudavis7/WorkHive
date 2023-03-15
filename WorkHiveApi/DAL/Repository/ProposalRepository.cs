@@ -1,37 +1,39 @@
 ﻿using DAL.Repository.Interface;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Repository
 {
-    public class UserRepository : IUserRepository
+    public class ProposalRepository : IProposalRepository
     {
         private readonly AppDbContext _dbContext;
 
-        public  UserRepository(AppDbContext dbContext)
+        public ProposalRepository(AppDbContext dbContext)
             {
               _dbContext = dbContext;
             }
-       public  List<User> GetUsers()
+        public List<Proposal> GetProposals()
         {
             try
             {
-                return _dbContext.Users.ToList();
+                return _dbContext.Proposals.ToList();
             }
             catch(Exception ex)
             {
                 throw ex;
             }
         }
-        public User GetUserDetails(int userId)
+        public Proposal GetProposalDetails(int proposalId)
         {
             try
             {
-                return _dbContext.Users.Where(x=>x.UserId== userId).FirstOrDefault();
+                return _dbContext.Proposals.Where(x => x.ProposalId == proposalId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -39,31 +41,33 @@ namespace DAL.Repository
             }
         }
 
-        public User GetUserDetails(string username, string password)
+        public Proposal CreateProposal(Proposal proposal)
         {
             try
             {
-                return _dbContext.Users.Where(x => x.Email == username && x.Password== password).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public User CreateUser(User user)
-        {
-            try
-            {
-                _dbContext.Users.Add(user);
+                 _dbContext.Proposals.Add(proposal);
                 _dbContext.SaveChanges();
-                return user;
+                return proposal;
             }
-
             catch (Exception ex)
             {
                 throw ex;
             }
         }
 
+        public Proposal UpdateProposal(Proposal proposal)
+        {
+            try
+            {
+                var obj = _dbContext.Proposals.FirstOrDefault(x => x.ProposalId == proposal.ProposalId);
+               
+                _dbContext.SaveChanges();
+                return proposal;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace DAL.Repository
             {
               _dbContext = dbContext;
             }
-       public  List<Jobs> GetJobs()
+       public  List<Job> GetJobs()
         {
             try
             {
@@ -29,11 +30,50 @@ namespace DAL.Repository
                 throw ex;
             }
         }
-        public Jobs GetJobDetails(int jobId)
+        public Job GetJobDetails(int jobId)
         {
             try
             {
                 return _dbContext.Jobs.Where(x => x.JobId == jobId).Include(b => b.Category).Include(b => b.Client).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Job CreateJob(Job job)
+        {
+            try
+            {
+              var client=  _dbContext.Clients.FirstOrDefault(x => x.UserId == job.ClientId);
+                job.Client = client;
+                 _dbContext.Jobs.Add( job);
+                _dbContext.SaveChanges();
+                return job;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Job UpdateJob(Job job)
+        {
+            try
+            {
+                var obj = _dbContext.Jobs.FirstOrDefault(x => x.JobId == job.JobId);
+                obj.CategoryId = job.CategoryId;
+                obj.ClientId = job.ClientId;
+                obj.Title = job.Title;
+                obj.Location = job.Location;
+                obj.Description = job.Description;
+                obj.Budget = job.Budget;
+                obj.SkillTags = job.SkillTags;
+                obj.Deadline = job.Deadline;
+                //_dbContext.Jobs.Add(job);
+                _dbContext.SaveChanges();
+                return job;
             }
             catch (Exception ex)
             {

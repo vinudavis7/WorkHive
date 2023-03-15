@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Entities
 {
     [Table("Freelancers")]
-    public class Freelancers:Users
+    public class Freelancer:User
     {
         public string Designation { get; set; }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Payments
+    public class Payment
     {
         [Key]
         public int PaymentId { get; set; }
@@ -21,6 +21,6 @@ namespace Entities
 
         public DateTime PaymentDate { get; set; }
         [ForeignKey("ContractId")]
-        public Contracts Contract { get; set; }
+        public Contract Contract { get; set; }
     }
 }

@@ -19,11 +19,47 @@ namespace BLL
         {
             _userRepository = userRepository;
         }
-        public IList<Users> GetUsers()
+        public IList<User> GetUsers()
         {
             try
             {
                 return _userRepository.GetUsers();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public User GetUserDetails(int userId)
+        {
+            try
+            {
+                return _userRepository.GetUserDetails(userId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public User GetUserDetails(string username, string password)
+        {
+            try
+            {
+                return _userRepository.GetUserDetails(username, password);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public User CreateUser(User user)
+        {
+            try
+            {
+                return _userRepository.CreateUser(user);
             }
             catch (Exception ex)
             {

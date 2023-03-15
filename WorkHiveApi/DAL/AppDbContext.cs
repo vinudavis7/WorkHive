@@ -17,16 +17,16 @@ namespace DAL
         {
 
         }
-        public DbSet<Users> Users { get; set; }
-        public DbSet<Clients> Clients { get; set; }
-        public DbSet<Freelancers> Freelancers { get; set; }
-        public DbSet<Jobs> Jobs { get; set; }
-        public DbSet<Categories> Categories { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Freelancer> Freelancers { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Contracts> Contracts { get; set; }
-        public DbSet<Proposals> Proposals { get; set; }
-        public DbSet<Reviews> Reviews { get; set; }
-        public DbSet<Payments> Payments { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Proposal> Proposals { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
 
 

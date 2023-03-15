@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Proposals
+    public class Proposal
     {
         [Key]
         public int ProposalId { get; set; }
@@ -16,17 +16,18 @@ namespace Entities
         public int JobId { get; set; }
 
         public int FreelancerId { get; set; }
-
+        public int BidAmount { get; set; }
+        public int NumberOfDays { get; set; }
         public string ProposalDescription { get; set; }
 
-        public string Attachment { get; set; }
+       // public string Attachment { get; set; }
 
-        public DateTime DateSubmitted { get; set; }
+       // public DateTime DateSubmitted { get; set; }
 
-        [ForeignKey("JobId")]
-        public Jobs Job { get; set; }
-        [ForeignKey("FreelancerId")]
-        public Freelancers Freelancer { get; set; }
+        //[ForeignKey("JobId")]
+        //public Job Job { get; set; }
+        //[ForeignKey("FreelancerId")]
+        //public Freelancer Freelancer { get; set; }
 
     }
 }

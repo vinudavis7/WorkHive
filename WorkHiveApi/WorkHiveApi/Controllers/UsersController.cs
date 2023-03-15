@@ -18,22 +18,31 @@ namespace WorkHiveApi.Controllers
         }
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<Users> Get()
+        public IEnumerable<User> Get()
         {
            return _userService.GetUsers();
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public User Get(int id)
         {
-            return "value";
+            return _userService.GetUserDetails(id);
+        }
+        [HttpGet]
+        [Route("GetUserDetails")]
+        public User GetLogin(string username,string password)
+        {
+            return _userService.GetUserDetails(username,password);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] User userDetails)
         {
+             _userService.CreateUser(userDetails);
+            return Ok();
+
         }
 
         // PUT api/<UserController>/5

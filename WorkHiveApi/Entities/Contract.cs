@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Contracts
+    public class Contract
     {
         [Key]
         public int ContractId { get; set; }
@@ -22,11 +22,11 @@ namespace Entities
         public DateTime DateCreated { get; set; }
         public string PaymentTerms { get; set; }
         [ForeignKey("JobId")]
-        public Jobs Job { get; set; }
+        public Job Job { get; set; }
         [ForeignKey("ClientId")]
-        public Clients Client { get; set; }
+        public Client Client { get; set; }
         [ForeignKey("FreelancerId")]
-        public Freelancers Freelancer { get; set; }
+        public Freelancer Freelancer { get; set; }
 
     }
 }

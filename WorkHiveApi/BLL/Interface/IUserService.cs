@@ -9,6 +9,10 @@ namespace BLL.Interface
 {
     public  interface IUserService
     {
-    public IList<Users> GetUsers();
+    public IList<User> GetUsers();
+        public User GetUserDetails(int userId);
+        public User GetUserDetails(string username, string password);
+        public User CreateUser(User user);
+
     }
 }

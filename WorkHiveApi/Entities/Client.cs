@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Categories
+    [Table("Clients")]
+    public class Client:User
     {
-        [Key]
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
+        public string CompanyName { get; set; }
+
+        public string Website { get; set; }
     }
 }

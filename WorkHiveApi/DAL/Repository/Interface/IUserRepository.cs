@@ -9,6 +9,10 @@ namespace DAL.Repository.Interface
 {
     public  interface IUserRepository
     {
-        public List<Users> GetUsers();
+        public List<User> GetUsers();
+        public User GetUserDetails(int userId);
+
+        public User GetUserDetails(string username, string password);
+        public User CreateUser(User user);
     }
 }

@@ -19,14 +19,14 @@ namespace WorkHiveApi.Controllers
         }
         // GET: api/<JobController>
         [HttpGet]
-        public   IEnumerable<Jobs> Get()
+        public   IEnumerable<Job> Get()
         {
             return  _jobService.GetJobs();
         }
 
         // GET api/<JobController>/5
         [HttpGet("{id}")]
-        public Jobs Get(int id)
+        public Job Get(int id)
         {
             var details = _jobService.GetJobDetails(id);
             return details;
@@ -34,14 +34,18 @@ namespace WorkHiveApi.Controllers
 
         // POST api/<JobController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public Job Post([FromBody] Job job)
         {
+            var jobObj = _jobService.CreateJob(job);
+            return jobObj;
         }
 
-        // PUT api/<JobController>/5
+        //PUT api/<JobController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public Job Put([FromBody] Job job)
         {
+            var jobObj = _jobService.UpdateJob(job);
+            return jobObj;
         }
 
         // DELETE api/<JobController>/5
