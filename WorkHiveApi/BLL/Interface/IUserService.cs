@@ -1,4 +1,9 @@
-﻿using Entities;
+﻿using DAL;
+
+using Entities;
+using Entities.ViewModel;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +14,16 @@ namespace BLL.Interface
 {
     public  interface IUserService
     {
-    public IList<User> GetUsers();
-        public User GetUserDetails(int userId);
-        public User GetUserDetails(string username, string password);
-        public User CreateUser(User user);
+        public Task<string> Register(RegisterRequest user);
+        public Task<LoginResponse> Login(LoginRequest mode);
+        public List<User> GetUsers();
+     
+        public User GetUserDetails(string userId);
+        
+        public bool UpdateUser(ProfileViewModel user);
+        public bool UpdateProfile(ProfileViewModel user);
+
+        
 
     }
 }

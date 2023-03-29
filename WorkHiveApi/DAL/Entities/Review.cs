@@ -10,19 +10,16 @@ namespace Entities
 {
     public class Review
     {
-        [Key]
+  
         public int ReviewId { get; set; }
-
-        public int ClientId { get; set; }
-        public int FreelancerId { get; set; }
-
         public string Description { get; set; }
-        public string Rating { get; set; }
-
+        public int Rating { get; set; }
         public DateTime DateCreated { get; set; }
-        [ForeignKey("ClientId")]
-        public Client Client { get; set; }
-        [ForeignKey("FreelancerId")]
-        public Freelancer Freelancer { get; set; }
+        public string FreelancerId { get; set; }
+        public string ClientId { get; set; }
+
+        public virtual User Freelancer { get; set; }
+        public virtual User Client { get; set; }
+
     }
 }

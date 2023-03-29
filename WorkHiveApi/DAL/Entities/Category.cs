@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    [Table("Clients")]
-    public class Client:User
+    public class Category
     {
-        public string CompanyName { get; set; }
-
-        public string Website { get; set; }
+   
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public virtual ICollection<Job> Jobs { get; set; } =
+       new List<Job>();
     }
 }

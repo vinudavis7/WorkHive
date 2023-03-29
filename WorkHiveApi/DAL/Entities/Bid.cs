@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Category
+    public class Bid
     {
-        [Key]
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
+        public int BidId { get; set; }
+        public int BidAmount { get; set; }
+        public DateTime ExpectedDate { get; set; }
+        public string Description { get; set; }
+        public string Status { get; set; }
+
     }
 }

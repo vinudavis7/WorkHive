@@ -1,6 +1,7 @@
 ﻿using BLL;
 using BLL.Interface;
 using Entities;
+using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,13 +20,16 @@ namespace WorkHiveApi.Controllers
         }
         // GET: api/<JobController>
         [HttpGet]
-        public   IEnumerable<Job> Get()
+        public   IEnumerable<Job> GetAll([FromQuery] JobSearchViewModel searchParams)
         {
-            return  _jobService.GetJobs();
+            var jobList= _jobService.GetJobs(searchParams);
+            return jobList;
         }
-
+        [HttpGet]
+    
         // GET api/<JobController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetDetails/{id}")]
         public Job Get(int id)
         {
             var details = _jobService.GetJobDetails(id);
@@ -34,24 +38,18 @@ namespace WorkHiveApi.Controllers
 
         // POST api/<JobController>
         [HttpPost]
-        public Job Post([FromBody] Job job)
+        public Job Post([FromBody] JobRequest job)
         {
             var jobObj = _jobService.CreateJob(job);
             return jobObj;
         }
 
         //PUT api/<JobController>/5
-        [HttpPut("{id}")]
-        public Job Put([FromBody] Job job)
+        [HttpPut]
+        public Job Put([FromBody] JobRequest job)
         {
             var jobObj = _jobService.UpdateJob(job);
             return jobObj;
-        }
-
-        // DELETE api/<JobController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

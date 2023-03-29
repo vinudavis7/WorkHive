@@ -10,23 +10,14 @@ namespace Entities
 {
     public class Contract
     {
-        [Key]
         public int ContractId { get; set; }
-        public int JobId { get; set; }
-        public int ClientId { get; set; }
-        public int FreelancerId { get; set; }
         public DateTime StartDate { get; set; }
-
         public DateTime EndDate { get; set; }
-
         public DateTime DateCreated { get; set; }
-        public string PaymentTerms { get; set; }
-        [ForeignKey("JobId")]
-        public Job Job { get; set; }
-        [ForeignKey("ClientId")]
-        public Client Client { get; set; }
-        [ForeignKey("FreelancerId")]
-        public Freelancer Freelancer { get; set; }
+        public string Description { get; set; }
+        
+        public virtual Bid bid { get; set; }
+
 
     }
 }

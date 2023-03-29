@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,12 @@ namespace BLL.Interface
 {
     public  interface IJobService
     {
-    public List<Job> GetJobs();
+    public List<Job> GetJobs(JobSearchViewModel searchParams);
         public Job GetJobDetails(int jobId);
-        public Job CreateJob(Job job);
-        public Job UpdateJob(Job job);
+        public Job CreateJob(JobRequest job);
+        public Job UpdateJob(JobRequest job);
+        public int GetJobCount();
+
+        public List<Job> GetRecentJobs();
     }
 }

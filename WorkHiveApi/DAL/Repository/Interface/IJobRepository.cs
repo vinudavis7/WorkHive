@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,13 @@ namespace DAL.Repository.Interface
 {
     public  interface IJobRepository
     {
-        public List<Job> GetJobs();
-        public Job GetJobDetails(int jobId);
-        public Job CreateJob(Job job);
-        public Job UpdateJob(Job job);
+        public List<Job> GetJobs(AppDbContext context ,JobSearchViewModel searchParams);
+        public Job GetJobDetails(AppDbContext context ,int jobId);
+        public int GetJobCount(AppDbContext context);
+        public Job CreateJob(AppDbContext context , Job job);
+        public Job UpdateJob(AppDbContext context , Job job);
+        public List<Job> GetRecentJobs(AppDbContext context);
+        public void AddBidToCollection(AppDbContext context, Bid bid, Job job);
 
     }
 }
