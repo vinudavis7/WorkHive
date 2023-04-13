@@ -12,6 +12,9 @@ using Microsoft.OpenApi.Models;
 using Serilog.Events;
 using Serilog;
 using System.Text;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Newtonsoft.Json;
+using System.Configuration;
 
 Log.Logger = new LoggerConfiguration()
              .MinimumLevel.Error() // Set the minimum log level to Error
@@ -62,6 +65,7 @@ builder.Services.AddAuthorization(options =>
               .RequireRole("Admin"));
 });
 
+builder.Services.AddHealthChecks();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -125,11 +129,28 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
+app.UseHealthChecks("/healthz", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(entry => new
+            {
+                name = entry.Key,
+                status = entry.Value.Status.ToString(),
+                description = entry.Value.Description
+            })
+        }));
+    }
+});
 
 app.UseHttpsRedirection();
 

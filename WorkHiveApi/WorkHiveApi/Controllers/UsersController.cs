@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Common;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 
@@ -149,6 +150,12 @@ namespace WorkHiveApi.Controllers
                 _logger.LogError(ex, "Error");
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
+        }
+        [HttpGet("health")]
+        public async Task<IActionResult> CheckHealthAsync()
+        {
+            var userList = _userService.GetUsers();
+            return Ok(userList);
         }
     }
 }
