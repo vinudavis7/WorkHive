@@ -12,44 +12,63 @@ namespace WorkHiveApi.Controllers
     [ApiController]
     public class BidsController : ControllerBase
     {
+        private readonly ILogger<BidsController> _logger;
         private readonly IBidService _bidService;
-        public BidsController(IBidService bidService)
+        public BidsController(IBidService bidService, ILogger<BidsController> logger)
         {
             _bidService = bidService;
+            _logger = logger;
         }
- 
-        [HttpGet]
-        public IEnumerable<Bid> GetAll()
-        {
-            var list = _bidService.GetBids();
 
-            return list;
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                var bidList = _bidService.GetBids();
+                return Ok(bidList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
+
         }
-        
+
 
         [HttpPost]
         [Route("UpdateBidStatus")]
-        public bool UpdateBidStatus([FromBody] int bidId)
+        public IActionResult UpdateBidStatus([FromBody] int bidId)
         {
-            var result = _bidService.UpdateBidStatus(bidId);
-
-            return result;
+            try
+            {
+                var result = _bidService.UpdateBidStatus(bidId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
 
 
         [HttpPost]
-        public bool Post([FromBody] BidRequest bid)
-        {try
+        public IActionResult Post([FromBody] BidRequest bid)
+        {
+            try
             {
-                var obj = _bidService.CreateBid(bid);
-                if (obj.BidId > 0)
-                    return true;
+                var result = _bidService.CreateBid(bid);
+                if (result.BidId > 0)
+                    return Ok(true);
                 else
-                    return false;
+                    return Ok(false);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return false;
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
         }
     }

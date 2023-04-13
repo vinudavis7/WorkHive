@@ -22,85 +22,48 @@ namespace DAL.Repository
     public class UserRepository : IUserRepository
     {
 
-        public async Task<IdentityUser> RegisterIdentityUser(UserManager<User> context, RegisterRequest model, IdentityUser user)
-        {
-            try
-            {
-                //var identityUser = new IdentityUser { UserName = model.Name, Email = model.Email, PhoneNumber = model.Phone };
-                //var passwordHash = new PasswordHasher<IdentityUser>().HashPassword(identityUser, model.Password);
-                //user.PasswordHash = passwordHash;
-
-
-                // r =await context.CreateAsync(user, model.Password);
-                // var rr=    await context.AddToRoleAsync(user, model.UserType);
-
-                return user;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public async Task<string> RegisterApplicationUser(AppDbContext dbContext, User user)
-        {
-            try
-            {
-                dbContext.Users.Add(user);
-                return user.Id;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public async Task<bool> CreateProfile(AppDbContext dbContext, Profile profile)
-        {
-            try
-            {
-                dbContext.Profiles.Add(profile);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public async Task<LoginResponse> Login(UserManager<User> context, LoginRequest model)
         {
-            var user = await context.FindByEmailAsync(model.Username);
-
-            if (user != null && await context.CheckPasswordAsync(user, model.Password))
+            try
             {
-                var roles = await context.GetRolesAsync(user);
-
-                // Create a new JWT token with the user's roles as claims
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes("this is my custom Secret key for authentication");
-                var tokenDescriptor = new SecurityTokenDescriptor
+                var user = await context.FindByEmailAsync(model.Username);
+                if (user != null && await context.CheckPasswordAsync(user, model.Password))
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
+                    var roles = await context.GetRolesAsync(user);
+
+                    // Create a new JWT token with the user's roles as claims
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var key = Encoding.ASCII.GetBytes("this is my custom Secret key for authentication");
+                    var tokenDescriptor = new SecurityTokenDescriptor
                     {
+                        Subject = new ClaimsIdentity(new Claim[]
+                        {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, string.Join(",", roles))
-                    }),
-                    Audience = "https://localhost:7223/",// Add audience claim ,
-                    Issuer = "https://localhost:7223/",
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+                        }),
+                        Audience = "https://localhost:7223/",// Add audience claim ,
+                        Issuer = "https://localhost:7223/",
+                        Expires = DateTime.UtcNow.AddDays(7),
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    };
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
+                    JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 
-                return new LoginResponse
-                {
-                    UserId = user.Id,
-                    Name = user.UserName,
-                    Role = string.Join(",", roles),
-                    Token = handler.WriteToken(token)
-                };
+                    return new LoginResponse
+                    {
+                        UserId = user.Id,
+                        Name = user.UserName,
+                        Role = string.Join(",", roles),
+                        Token = handler.WriteToken(token)
+                    };
 
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
             }
             return null;
         }
@@ -112,9 +75,6 @@ namespace DAL.Repository
                 List<User> userList = dbContext.Users
                 .Include(user => user.Profile)
                 .ToList();
-
-
-
                 return userList;
             }
             catch (Exception ex)
@@ -127,10 +87,9 @@ namespace DAL.Repository
             try
             {
                 var list = dbContext.Users
-      .Where(user => user.Profile != null)
- .Include(user => user.Profile)
- .ToList();
-                // res= await _userManager.GetUsersInRoleAsync(role);
+                .Where(user => user.Profile != null)
+                .Include(user => user.Profile)
+                .ToList();
                 return list;
             }
             catch (Exception ex)
@@ -146,8 +105,6 @@ namespace DAL.Repository
             try
             {
                 List<Profile> profileList = dbContext.Profiles
-                // .Include(user => user.User)
-                //.ThenInclude(u => u.IdentityUser)
                 .ToList();
                 return profileList;
             }
@@ -165,6 +122,7 @@ namespace DAL.Repository
                     Include(user => user.Profile)
                     .Include(user => user.Bids)
                     .Include(user => user.Jobs).ThenInclude(user => user.Bids)
+                    .Include(user => user.FreelancerReviews)
                     .Where(x => x.Id == userId)
                     .FirstOrDefault();
             }
@@ -180,10 +138,7 @@ namespace DAL.Repository
         {
             try
             {
-                return dbContext.Profiles
-                    //Include(user => user.IdentityUser)
-                    //.Where(x => x.User.Id == userId)
-                    .FirstOrDefault();
+                return dbContext.Profiles.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -213,24 +168,24 @@ namespace DAL.Repository
         {
             try
             {
-                var obj = dbContext.Users
-                    //.Include(user => user.IdentityUser)
-                    .Where(x => x.Id == user.UserId).FirstOrDefault();
+                var obj = dbContext.Users.Where(x => x.Id == user.UserId).FirstOrDefault();
                 obj.UserName = user.Name;
                 obj.Email = user.Email;
-                // obj.IdentityUser.Password = user.Password;
                 obj.PhoneNumber = user.Phone;
                 obj.Location = user.Location;
-                obj.ProfileImage = user.ProfileImage;
+                if (!string.IsNullOrEmpty(user.ProfileImage))
+                {
+                    obj.ProfileImage = user.ProfileImage;
 
-                var profile = dbContext.Profiles
-                    //.Include(user => user.IdentityUser)
-                    .Where(x => x.ProfileId == user.ProfileId).FirstOrDefault();
+                }
+
+                var profile = dbContext.Profiles.Where(x => x.ProfileId == user.ProfileId).FirstOrDefault();
                 profile.Skills = user.Skills;
                 profile.Experience = user.Experience;
                 profile.Designation = user.Designation;
                 profile.Description = user.Description;
                 profile.HourlyRate = user.HourlyRate;
+                profile.LocationCordinates = user.LocationCordinates;
 
                 return true;
             }
@@ -239,19 +194,33 @@ namespace DAL.Repository
                 throw ex;
             }
         }
+        public async Task<bool> CheckIfEmailExists(string email, UserManager<User> userManager)
+        {
+            try
+            {
+                var user = await userManager.FindByEmailAsync(email);
+                if (user != null)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
         public bool UpdateUser(AppDbContext dbContext, ProfileViewModel user)
         {
             try
             {
-                var obj = dbContext.Users
-                   //.Include(user => user.IdentityUser)
-                   .Where(x => x.Id == user.UserId).FirstOrDefault();
+                var obj = dbContext.Users.Where(x => x.Id == user.UserId).FirstOrDefault();
                 obj.UserName = user.Name;
                 obj.Email = user.Email;
-                // obj.IdentityUser.Password = user.Password;
                 obj.PhoneNumber = user.Phone;
                 obj.Location = user.Location;
                 obj.ProfileImage = user.ProfileImage;
+
                 return true;
             }
             catch (Exception ex)
@@ -266,6 +235,18 @@ namespace DAL.Repository
         public void AddBidToCollection(AppDbContext context, Bid bid, User user)
         {
             user.Bids.Add(bid);
+        }
+        public void AddReviewToCollection(AppDbContext context, Review review, User user)
+        {
+            user.FreelancerReviews.Add(review);
+        }
+        public void AddFreelancerReviewToCollection(AppDbContext context, Review review, User user)
+        {
+            user.FreelancerReviews.Add(review);
+        }
+        public void AddClientReviewToCollection(AppDbContext context, Review review, User user)
+        {
+            user.ClientReviews.Add(review);
         }
 
     }

@@ -27,7 +27,6 @@ namespace BLL
                 using (AppDbContext context = new AppDbContext())
                 {
                     return _categoryRepository.GetCategories(context);
-
                 }
             }
             catch (Exception ex)
@@ -66,13 +65,13 @@ namespace BLL
             }
         }
 
-        public Category Createcategory(Category category)
+        public Category Createcategory(string categoryName)
         {
             try
             {
                 using (AppDbContext context = new AppDbContext())
                 {
-                     _categoryRepository.Createcategory(context,category);
+                   var category=  _categoryRepository.Createcategory(context, categoryName);
                     context.SaveChanges();
                     return category;
                 }

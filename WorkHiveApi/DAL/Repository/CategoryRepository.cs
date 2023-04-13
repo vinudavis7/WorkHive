@@ -12,15 +12,13 @@ namespace DAL.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
- 
-
         public List<Category> GetCategories(AppDbContext _dbContext)
         {
             try
             {
                 return _dbContext.Categories.ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -37,11 +35,12 @@ namespace DAL.Repository
             }
         }
 
-        public Category Createcategory(AppDbContext _dbContext, Category category)
-{
-    try
+        public Category Createcategory(AppDbContext _dbContext, string categoryName)
+        {
+            try
             {
-
+                Category category = new Category();
+                category.CategoryName = categoryName;
                 _dbContext.Categories.Add(category);
                 return category;
             }
@@ -65,11 +64,11 @@ namespace DAL.Repository
             }
         }
 
-        public  List<Category> GetPopularCategories(AppDbContext _dbContext)
+        public List<Category> GetPopularCategories(AppDbContext _dbContext)
         {
             try
             {
-                var recentCategories = _dbContext.Categories.OrderByDescending(p => p.CategoryId).Take(5).ToList(); 
+                var recentCategories = _dbContext.Categories.OrderByDescending(p => p.CategoryId).Take(5).ToList();
                 return recentCategories;
             }
             catch (Exception ex)
@@ -77,7 +76,7 @@ namespace DAL.Repository
                 throw ex;
             }
         }
-    public void AddJobToCollection(AppDbContext context, Job job, Category category)
+        public void AddJobToCollection(AppDbContext context, Job job, Category category)
         {
             category.Jobs.Add(job);
         }

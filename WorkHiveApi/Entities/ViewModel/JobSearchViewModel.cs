@@ -10,7 +10,7 @@ namespace Entities.ViewModel
     {
         public string? SearchLocation { get; set; }
         public string? SearchTitle { get; set; }
-        public string? SearchJobType { get; set; }
+        public string? SearchCategory { get; set; }
         public int? ClientID { get; set; }
 
 

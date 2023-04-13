@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class BidService:IBidService
+    public class BidService : IBidService
     {
         private readonly IBidRepository _bidRepository;
         private readonly IJobRepository _jobRepository;
@@ -25,10 +25,6 @@ namespace BLL
             _jobRepository = jobRepository;
             _userRepository = userRepository;
         }
-      
-       
-       
-      
         public List<Bid> GetBids()
         {
             try
@@ -49,7 +45,7 @@ namespace BLL
             {
                 using (AppDbContext context = new AppDbContext())
                 {
-                    return _bidRepository.GetBidDetails(context,proposalId);
+                    return _bidRepository.GetBidDetails(context, proposalId);
                 }
             }
             catch (Exception ex)
@@ -70,8 +66,6 @@ namespace BLL
                     Status = bid.Status
                 };
 
-
-
                 using (AppDbContext context = new AppDbContext())
                 {
                     User user = _userRepository.GetUserDetails(context, bid.UserId);
@@ -90,30 +84,15 @@ namespace BLL
                 throw ex;
             }
         }
-        //public Bid UpdateBid(BidRequest bid)
-        //{
-        //    try
-        //    {
-        //        using (AppDbContext context = new AppDbContext())
-        //        {
-        //            _bidRepository.UpdateBid(context, bid);
-        //            context.SaveChanges();
-        //            return bid;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+
         public bool UpdateBidStatus(int proposalId)
         {
             try
             {
                 using (AppDbContext context = new AppDbContext())
                 {
-                   _bidRepository.UpdateBidStatus(context,proposalId);
-                context.SaveChanges();
+                    _bidRepository.UpdateBidStatus(context, proposalId);
+                    context.SaveChanges();
                     return true;
                 }
             }

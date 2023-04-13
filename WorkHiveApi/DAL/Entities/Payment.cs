@@ -14,6 +14,6 @@ namespace Entities
         public int Amount { get; set; }
         public string PaymentMethod { get; set; }
         public DateTime PaymentDate { get; set; }
-        public virtual Contract Contract { get; set; }
+        public virtual Bid Bid { get; set; }
     }
 }

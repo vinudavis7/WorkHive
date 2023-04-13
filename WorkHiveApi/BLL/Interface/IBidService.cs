@@ -11,10 +11,8 @@ namespace BLL.Interface
     public  interface IBidService
     {
         public List<Bid> GetBids();
-        //public List<Bid> GetProposalsToClients(int clientId);
         public Bid GetBidDetails(int bidId);
         public Bid CreateBid(BidRequest bid);
-        //public Bid UpdateBid(BidRequest bid);
         public bool UpdateBidStatus(int bidId);
 
     }

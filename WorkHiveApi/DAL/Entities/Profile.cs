@@ -16,6 +16,8 @@ namespace Entities
         public int? Experience { get; set; }
         public double? HourlyRate { get; set; }
         public string? Skills { get; set; }
+        public string? LocationCordinates { get; set; }
+        public int? Rating { get; set; }
 
     }
 }

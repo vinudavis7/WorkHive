@@ -9,7 +9,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog.Events;
+using Serilog;
 using System.Text;
+
+Log.Logger = new LoggerConfiguration()
+             .MinimumLevel.Error() // Set the minimum log level to Error
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log-{Date}.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,7 +94,7 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
-
+builder.Host.UseSerilog();
 
 
 //Add repository
@@ -94,7 +104,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IFreelancerRepository, FreelancerRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 
 //Add services
@@ -106,7 +116,7 @@ builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<IBidService, BidService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
-builder.Services.AddScoped<IFreelancerService, FreelancerService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 
 
@@ -126,5 +136,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapControllers();
-
+app.UseSerilogRequestLogging();
 app.Run();

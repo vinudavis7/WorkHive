@@ -27,7 +27,6 @@ namespace DAL
         public DbSet<User> Users { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Contract> Contracts { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Bid> Bids { get; set; }
@@ -73,17 +72,17 @@ namespace DAL
             {
                 entity.ToTable("UserTokens");
             });
-            modelbuilder.Entity<Review>()
-            .HasOne(r => r.Freelancer)
-            .WithMany(u => u.FreelancerReviews)
-            .HasForeignKey(r => r.FreelancerId)
-            .OnDelete(DeleteBehavior.Restrict);
+            //modelbuilder.Entity<Review>()
+            //.HasOne(r => r.Freelancer)
+            //.WithMany(u => u.FreelancerReviews)
+            //.HasForeignKey(r => r.FreelancerId)
+            //.OnDelete(DeleteBehavior.Restrict);
 
-            modelbuilder.Entity<Review>()
-                .HasOne(r => r.Client)
-                .WithMany(u => u.ClientReviews)
-                .HasForeignKey(r => r.ClientId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //modelbuilder.Entity<Review>()
+            //    .HasOne(r => r.Client)
+            //    .WithMany(u => u.ClientReviews)
+            //    .HasForeignKey(r => r.ClientId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

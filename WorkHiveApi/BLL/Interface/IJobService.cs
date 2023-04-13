@@ -15,7 +15,6 @@ namespace BLL.Interface
         public Job CreateJob(JobRequest job);
         public Job UpdateJob(JobRequest job);
         public int GetJobCount();
-
         public List<Job> GetRecentJobs();
     }
 }

@@ -1,5 +1,4 @@
-﻿using BLL;
-using BLL.Interface;
+﻿using BLL.Interface;
 using Entities;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Http;
@@ -9,39 +8,37 @@ namespace WorkHiveApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DashboardController : ControllerBase
+    public class ReviewController : ControllerBase
     {
-        private readonly ILogger<DashboardController> _logger;
-        private readonly IDashboardService _dashboardService;
-
-        public DashboardController(IDashboardService dashboardService, ILogger<DashboardController> logger)
+        private readonly ILogger<ReviewController> _logger;
+        private readonly IReviewService _reviewService;
+        public ReviewController(IReviewService reviewService, ILogger<ReviewController> logger)
         {
-            _dashboardService = dashboardService;
+            _reviewService = reviewService;
             _logger = logger;
         }
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             try
             {
-                var result = await _dashboardService.GetDashboardData();
-                return Ok(result);
+                var reviewList = _reviewService.GetReviews();
+                return Ok(reviewList);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error");
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
-
         }
-        [HttpGet]
-        [Route("GetDashboardSummary")]
-        public async Task<IActionResult> GetDashboardSummary()
+        [HttpPost]
+
+        public IActionResult CreateReview([FromBody] ReviewRequest review)
         {
             try
             {
-                var summary = await _dashboardService.GetDashboardSummary();
-                return Ok(summary);
+                var result = _reviewService.CreateReview(review);
+                return Ok(result);
             }
             catch (Exception ex)
             {

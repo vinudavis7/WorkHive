@@ -12,7 +12,7 @@ namespace BLL.Interface
         public List<Category> GetCategories();
         public List<Category> GetPopularCategories();
         public Category GetCategory(int categoryId);
-        public Category Createcategory(Category category);
+        public Category Createcategory(string categoryName);
         public Category UpdateCategory(Category category);
     }
 }

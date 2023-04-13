@@ -12,44 +12,73 @@ namespace WorkHiveApi.Controllers
     [ApiController]
     public class JobsController : ControllerBase
     {
+        private readonly ILogger<JobsController> _logger;
         private readonly IJobService _jobService;
 
-        public JobsController(IJobService jobService)
+        public JobsController(IJobService jobService, ILogger<JobsController> logger)
         {
             _jobService = jobService;
+            _logger = logger;
         }
-        // GET: api/<JobController>
         [HttpGet]
-        public   IEnumerable<Job> GetAll([FromQuery] JobSearchViewModel searchParams)
+        public IActionResult GetAll([FromQuery] JobSearchViewModel searchParams)
         {
-            var jobList= _jobService.GetJobs(searchParams);
-            return jobList;
+            try
+            {
+                var jobList = _jobService.GetJobs(searchParams);
+                return Ok(jobList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
-        [HttpGet]
-    
-        // GET api/<JobController>/5
+
         [HttpGet]
         [Route("GetDetails/{id}")]
-        public Job Get(int id)
+        public IActionResult Get(int id)
         {
-            var details = _jobService.GetJobDetails(id);
-            return details;
+            try
+            {
+                var details = _jobService.GetJobDetails(id);
+                return Ok(details);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
 
-        // POST api/<JobController>
         [HttpPost]
-        public Job Post([FromBody] JobRequest job)
+        public IActionResult Post([FromBody] JobRequest job)
         {
-            var jobObj = _jobService.CreateJob(job);
-            return jobObj;
+            try
+            {
+                var result = _jobService.CreateJob(job);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
 
-        //PUT api/<JobController>/5
         [HttpPut]
-        public Job Put([FromBody] JobRequest job)
+        public IActionResult Put([FromBody] JobRequest job)
         {
-            var jobObj = _jobService.UpdateJob(job);
-            return jobObj;
+            try
+            {
+                var result = _jobService.UpdateJob(job);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
     }
 }

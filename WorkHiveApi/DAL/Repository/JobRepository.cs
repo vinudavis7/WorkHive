@@ -19,39 +19,36 @@ namespace DAL.Repository
         {
             try
             {
-                var list = _dbContext.Jobs.AsQueryable();
+                var list = _dbContext.Jobs.ToList();
+
+                if (!string.IsNullOrEmpty(searchParams.SearchCategory) && searchParams.SearchCategory != "All")
+                {
+                    List<Category> categoryList = _dbContext.Categories.Include(x => x.Jobs).Where(x => x.CategoryName.Contains(searchParams.SearchCategory)).ToList();
+                    if (categoryList.Count == 1)
+                        list = categoryList[0].Jobs.ToList();
+                }
+
                 if (!string.IsNullOrEmpty(searchParams.SearchTitle))
                 {
-                    list = list.Where(x => x.Title.Contains(searchParams.SearchTitle));
+                    list = list.Where(x => x.Title.Contains(searchParams.SearchTitle)).ToList();
                 }
-                if (!string.IsNullOrEmpty(searchParams.SearchJobType))
-                {
-                    list = list.Where(x => x.JobType.Contains(searchParams.SearchJobType));
-                }
+
                 if (!string.IsNullOrEmpty(searchParams.SearchLocation))
                 {
-                    list = list.Where(x => x.Location.Contains(searchParams.SearchLocation));
+                    list = list.Where(x => x.Location.Contains(searchParams.SearchLocation)).ToList();
                 }
-                //if (searchParams.ClientID > 0)
-                //{
-                //    list = list.Where(x => x.ClientId == searchParams.ClientID);
-                //}
-
                 return list.ToList();
-                    //.Include(b => b.Category).Include(b => b.Client).ToList();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public Job GetJobDetails(AppDbContext _dbContext,int jobId)
+        public Job GetJobDetails(AppDbContext _dbContext, int jobId)
         {
             try
             {
                 return _dbContext.Jobs.Where(x => x.JobId == jobId).FirstOrDefault();
-
-                //return _dbContext.Jobs.Where(x => x.JobId == jobId).Include(b => b.Category).Include(b => b.Client).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -70,7 +67,7 @@ namespace DAL.Repository
                 throw ex;
             }
         }
-        public  List<Job> GetRecentJobs(AppDbContext _dbContext)
+        public List<Job> GetRecentJobs(AppDbContext _dbContext)
         {
             try
             {
@@ -100,15 +97,12 @@ namespace DAL.Repository
             try
             {
                 var obj = _dbContext.Jobs.FirstOrDefault(x => x.JobId == job.JobId);
-               // obj.CategoryId = job.CategoryId;
-               // obj.ClientId = job.ClientId;
                 obj.Title = job.Title;
                 obj.Location = job.Location;
                 obj.Description = job.Description;
                 obj.Budget = job.Budget;
                 obj.SkillTags = job.SkillTags;
                 obj.Deadline = job.Deadline;
-                //_dbContext.Jobs.Add(job);
                 return obj;
             }
             catch (Exception ex)
@@ -121,6 +115,5 @@ namespace DAL.Repository
         {
             job.Bids.Add(bid);
         }
-
     }
 }

@@ -18,25 +18,6 @@ namespace DAL.Repository
             try
             {
                 var list = _dbContext.Bids.ToList();
-                //else
-                //    list = _dbContext.Bids.Where(x => x == userId).ToList();
-
-        //        var proposalsWithJobs = list
-        //.Join(
-        //    _dbContext.Jobs, proposal => proposal.JobId, job => job.JobId,
-        //    (proposal, job) => new { Proposal = proposal, Job = job }
-        //)
-        //.Select(pj => new Proposal
-        //{
-        //    ProposalDescription = pj.Proposal.ProposalDescription,
-        //    NumberOfDays = pj.Proposal.NumberOfDays,
-        //    ProposalId = pj.Proposal.ProposalId,
-        //    BidAmount = pj.Proposal.BidAmount,
-        //    JobId = pj.Proposal.JobId,
-        //    Status = pj.Proposal.Status,
-        //    Job = pj.Job
-        //}).ToList();
-
                 return list;
             }
             catch (Exception ex)
@@ -44,34 +25,6 @@ namespace DAL.Repository
                 throw ex;
             }
         }
-        //public List<Bid> GetBidsToClients(AppDbContext _dbContext, int clientId)
-        //{
-        //    try
-        //    {
-
-        //        var result = _dbContext.Proposals
-        //.Join(_dbContext.Jobs, p => p.JobId, j => j.JobId, (p, j) => new { Proposal = p, Job = j })
-        //.Join(_dbContext.Clients, x => x.Job.ClientId, c => c.UserId, (x, c) => new { Proposal = x.Proposal, Job = x.Job, Client = c })
-        //.Join(_dbContext.Users, x => x.Proposal.FreelancerId, u => u.UserId, (x, u) =>
-        //new Proposal
-        //{
-        //    ProposalDescription = x.Proposal.ProposalDescription,
-        //    NumberOfDays = x.Proposal.NumberOfDays,
-        //    ProposalId = x.Proposal.ProposalId,
-        //    BidAmount = x.Proposal.BidAmount,
-        //    JobId = x.Proposal.JobId,
-        //    Status = x.Proposal.Status,
-        //    Job = x.Job,
-        //    Freelancer = new Freelancer { UserDetails = u }
-        //}).Where(x => x.Job.ClientId == clientId).ToList();
-        //        return result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
         public Bid GetBidDetails(AppDbContext _dbContext, int bidId)
         {
             try
@@ -128,14 +81,6 @@ namespace DAL.Repository
             {
                 var bid = _dbContext.Bids.FirstOrDefault(x => x.BidId == bidId);
                 bid.Status = "Accepted";
-
-
-                //var bidsToUpdate = _dbContext.Bids.Where(p => p == bid.JobId && p.ProposalId != proposal.ProposalId);
-
-                //foreach (var obj in bidsToUpdate)
-                //{
-                //    obj.Status = "Rejected";
-                //}
                 return true;
             }
             catch (Exception ex)

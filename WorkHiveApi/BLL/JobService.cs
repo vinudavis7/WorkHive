@@ -32,7 +32,6 @@ namespace BLL
                 {
                   return  _jobRepository.GetJobs(context,searchParams);
                 }
-
             }
             catch (Exception ex)
             {
@@ -46,8 +45,7 @@ namespace BLL
                 using (AppDbContext context = new AppDbContext())
                 {
                     return _jobRepository.GetJobDetails(context,jobId);
-                }
-                
+                }           
             }
             catch (Exception ex)
             {

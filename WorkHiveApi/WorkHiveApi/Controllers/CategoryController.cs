@@ -10,46 +10,73 @@ namespace WorkHiveApi.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
+        private readonly ILogger<CategoryController> _logger;
         private readonly ICategoryService _categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
+            _logger = logger;
         }
 
 
 
         [HttpGet("GetDetails/{id}")]
-        public Category GetCategoryDetails(int id)
+        public IActionResult GetCategoryDetails(int id)
         {
-            return _categoryService.GetCategory(id);
+            try
+            {
+                var category = _categoryService.GetCategory(id);
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
         [HttpGet("GetAll")]
-        public List<Category> GetAll()
+        public IActionResult GetAll()
         {
-            return _categoryService.GetCategories();
+            try
+            {
+                var categoryList = _categoryService.GetCategories();
+                return Ok(categoryList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
         [HttpGet("GetPopular")]
-        public List<Category> GetPopularCategories()
+        public IActionResult GetPopularCategories()
         {
-            return _categoryService.GetPopularCategories();
+            try
+            {
+                var categoryList = _categoryService.GetPopularCategories();
+                return Ok(categoryList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
 
-        //// POST api/<CategoryController>
-        //[HttpPost]
-        //public Category Post([FromBody] Category category)
-        //{
-        //    return _categoryService.Createcategory(category);
-
-        //}
-
-        //// PUT api/<CategoryController>/5
-        //[HttpPut]
-        //public Category Put([FromBody] Category category)
-        //{
-        //    return _categoryService.UpdateCategory(category);
-
-        //}
-
+        [HttpPost]
+        public IActionResult Post([FromBody] string categoryName)
+        {
+            try
+            {
+                var result = _categoryService.Createcategory(categoryName);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
+        }
     }
 }

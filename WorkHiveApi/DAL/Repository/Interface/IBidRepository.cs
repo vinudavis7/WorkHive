@@ -10,14 +10,10 @@ namespace DAL.Repository.Interface
     public  interface IBidRepository
     {
         public List<Bid> GetBids(AppDbContext context);
-        //public List<Bid> GetBidToClients(AppDbContext context,int clientId);
         public int GetBidCount(AppDbContext context);
-
         public Bid GetBidDetails(AppDbContext context,int bidId);
         public Bid CreateBid(AppDbContext context,Bid bid);
         public Bid UpdateBid(AppDbContext context,Bid bid);
         public bool UpdateBidStatus(AppDbContext context,int bidId);
-
-
     }
 }

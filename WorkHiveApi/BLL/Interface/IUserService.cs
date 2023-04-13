@@ -17,13 +17,12 @@ namespace BLL.Interface
         public Task<string> Register(RegisterRequest user);
         public Task<LoginResponse> Login(LoginRequest mode);
         public List<User> GetUsers();
-     
         public User GetUserDetails(string userId);
-        
+        public bool CheckIfEmailExists(string email);
         public bool UpdateUser(ProfileViewModel user);
         public bool UpdateProfile(ProfileViewModel user);
+        public List<User> GetUsersByRole(string role);
 
-        
 
     }
 }

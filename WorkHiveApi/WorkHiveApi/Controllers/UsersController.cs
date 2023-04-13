@@ -21,56 +21,135 @@ namespace WorkHiveApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly ILogger<UsersController> _logger;
         private readonly IUserService _userService;
 
 
-        public UsersController(IUserService userService)
+        public UsersController(ILogger<UsersController> logger, IUserService userService)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest model)
         {
-
-            var result = await _userService.Register(model);
-            return Ok(true );
+            try
+            {
+                var result = await _userService.Register(model);
+                if (result.Contains("Failed"))
+                    return Ok(false);
+                else
+                    return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest model)
         {
-            var result = await _userService.Login(model);
-
-            return Ok(result);
+            try
+            {
+                var result = await _userService.Login(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
 
         [HttpGet("GetAll")]
-        public IEnumerable<User> GetAllUsers()
+        public IActionResult GetAllUsers()
         {
-            return _userService.GetUsers();
+            try
+            {
+                var userList = _userService.GetUsers();
+                return Ok(userList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
         [HttpGet("GetDetails/{id}")]
-        public User GetUserDetails(string id)
+        public IActionResult GetUserDetails(string id)
         {
-            return _userService.GetUserDetails(id);
+            try
+            {
+                var userDetails = _userService.GetUserDetails(id);
+                return Ok(userDetails);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
- 
-        [HttpPut("UpdateUser")]
-        public bool UpdateUser([FromBody] ProfileViewModel userDetails)
+        [HttpGet("GetUsersByRole/{role}")]
+        public IActionResult GetUsersByRole(string role)
         {
-            var result = _userService.UpdateUser(userDetails);
-            return result;
+            try
+            {
+                var result = _userService.GetUsersByRole(role);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
+        }
+        [HttpGet("CheckIfEmailExists/{email}")]
+        public IActionResult CheckIfEmailExists(string email)
+        {
+            try
+            {
+                var result = _userService.CheckIfEmailExists(email);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
+        }
+
+
+        [HttpPut("UpdateUser")]
+        public IActionResult UpdateUser([FromBody] ProfileViewModel userDetails)
+        {
+            try
+            {
+                var result = _userService.UpdateUser(userDetails);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
         [HttpPut("UpdateProfile")]
-        public bool UpdateProfile([FromBody] ProfileViewModel userDetails)
+        public IActionResult UpdateProfile([FromBody] ProfileViewModel userDetails)
         {
-            var result = _userService.UpdateProfile(userDetails);
-            return result;
+            try
+            {
+                var result = _userService.UpdateProfile(userDetails);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
         }
-
-
-
     }
 }
 

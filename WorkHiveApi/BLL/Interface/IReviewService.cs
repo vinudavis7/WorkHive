@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DAL;
+using Entities;
 using Entities.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface
 {
-    public  interface IDashboardService
+    public interface IReviewService
     {
-    public Task<object> GetDashboardData();
-    public Task<IDictionary<string, int>> GetDashboardSummary();
-
+        public List<Review> GetReviews();
+        public bool CreateReview(ReviewRequest review);
     }
 }
