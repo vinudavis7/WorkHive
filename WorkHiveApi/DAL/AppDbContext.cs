@@ -16,12 +16,10 @@ namespace DAL
 {
     public  class AppDbContext : IdentityDbContext<User>
     {
-        private readonly IConfiguration _configuration;
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
         {
-            _configuration = configuration;
 
         }
         public AppDbContext()
@@ -41,8 +39,12 @@ namespace DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-            //optionBuilder.UseSqlServer("Server=tcp:server31056386.database.windows.net,1433;Initial Catalog=workhive;Persist Security Info=False;User ID=c1056386;Password=@Lucifer666;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;\r\n");
-            //optionBuilder.UseSqlServer("Data Source=.;Initial Catalog=workhive5;Integrated Security=True;TrustServerCertificate=True");
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                     .AddJsonFile(Directory.GetCurrentDirectory() +
+                    "/../WorkHiveApi/appsettings.json").Build();
+            optionBuilder.UseSqlServer(configuration.GetConnectionString("DBConnection"));
+
         }
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
