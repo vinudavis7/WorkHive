@@ -39,7 +39,7 @@ namespace DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-            optionBuilder.UseSqlServer("Server=tcp:server31056386.database.windows.net,1433;Initial Catalog=workhive;Persist Security Info=False;User ID=c1056386;Password=@Lucifer666;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;\r\n");
+            //optionBuilder.UseSqlServer("Server=tcp:server31056386.database.windows.net,1433;Initial Catalog=workhive;Persist Security Info=False;User ID=c1056386;Password=@Lucifer666;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;\r\n");
             //optionBuilder.UseSqlServer("Data Source=.;Initial Catalog=workhive5;Integrated Security=True;TrustServerCertificate=True");
         }
         protected override void OnModelCreating(ModelBuilder modelbuilder)
