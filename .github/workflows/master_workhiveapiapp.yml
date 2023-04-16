@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - c1056386
+name: Build and deploy ASP.Net Core app to Azure Web App - WorkhiveApiApp
 
 on:
   push:
@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'WorkhiveApiApp'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D2B58312EB484676AA63EE60B95E8F53 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_60B0D3E3F7FD441EB70706B1CC467DEF }}
           package: .
