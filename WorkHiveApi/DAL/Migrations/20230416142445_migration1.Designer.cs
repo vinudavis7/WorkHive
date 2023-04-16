@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230328100933_migration1")]
+    [Migration("20230416142445_migration1")]
     partial class migration1
     {
         /// <inheritdoc />
@@ -24,34 +24,6 @@ namespace DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DAL.Entities.Profile", b =>
-                {
-                    b.Property<int>("ProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Designation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Experience")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("HourlyRate")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Skills")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProfileId");
-
-                    b.ToTable("Profiles");
-                });
 
             modelBuilder.Entity("Entities.Bid", b =>
                 {
@@ -105,37 +77,6 @@ namespace DAL.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Entities.Contract", b =>
-                {
-                    b.Property<int>("ContractId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContractId"));
-
-                    b.Property<int>("BidId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ContractId");
-
-                    b.HasIndex("BidId");
-
-                    b.ToTable("Contracts");
                 });
 
             modelBuilder.Entity("Entities.Job", b =>
@@ -201,7 +142,7 @@ namespace DAL.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContractId")
+                    b.Property<int>("BidId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PaymentDate")
@@ -213,9 +154,43 @@ namespace DAL.Migrations
 
                     b.HasKey("PaymentId");
 
-                    b.HasIndex("ContractId");
+                    b.HasIndex("BidId");
 
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("Entities.Profile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Designation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Experience")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("HourlyRate")
+                        .HasColumnType("float");
+
+                    b.Property<string>("LocationCordinates")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Skills")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProfileId");
+
+                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("Entities.Review", b =>
@@ -226,10 +201,6 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -237,18 +208,20 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FreelancerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ReviewId");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("FreelancerId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reviews");
                 });
@@ -265,24 +238,12 @@ namespace DAL.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Designation")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("Experience")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("HourlyRate")
-                        .HasColumnType("float");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -320,9 +281,6 @@ namespace DAL.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Skills")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -342,7 +300,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ProfileId");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -395,58 +353,6 @@ namespace DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -541,17 +447,6 @@ namespace DAL.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Entities.Contract", b =>
-                {
-                    b.HasOne("Entities.Bid", "bid")
-                        .WithMany()
-                        .HasForeignKey("BidId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("bid");
-                });
-
             modelBuilder.Entity("Entities.Job", b =>
                 {
                     b.HasOne("Entities.Category", null)
@@ -565,37 +460,29 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Entities.Payment", b =>
                 {
-                    b.HasOne("Entities.Contract", "Contract")
+                    b.HasOne("Entities.Bid", "Bid")
                         .WithMany()
-                        .HasForeignKey("ContractId")
+                        .HasForeignKey("BidId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Contract");
+                    b.Navigation("Bid");
                 });
 
             modelBuilder.Entity("Entities.Review", b =>
                 {
-                    b.HasOne("Entities.User", "Client")
+                    b.HasOne("Entities.User", null)
                         .WithMany("ClientReviews")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.HasOne("Entities.User", "Freelancer")
+                    b.HasOne("Entities.User", null)
                         .WithMany("FreelancerReviews")
-                        .HasForeignKey("FreelancerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Freelancer");
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Entities.User", b =>
                 {
-                    b.HasOne("DAL.Entities.Profile", "Profile")
+                    b.HasOne("Entities.Profile", "Profile")
                         .WithMany()
                         .HasForeignKey("ProfileId");
 

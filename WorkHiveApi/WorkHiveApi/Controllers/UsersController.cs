@@ -154,8 +154,17 @@ namespace WorkHiveApi.Controllers
         [HttpGet("health")]
         public async Task<IActionResult> CheckHealthAsync()
         {
-            var userList = _userService.GetUsers();
-            return Ok(userList);
+            try
+            {
+                var userList = _userService.GetUsers();
+                return Ok(userList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException);
+            }
+
         }
     }
 }

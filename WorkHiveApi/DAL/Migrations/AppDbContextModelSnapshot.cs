@@ -22,34 +22,6 @@ namespace DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DAL.Entities.Profile", b =>
-                {
-                    b.Property<int>("ProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Designation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Experience")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("HourlyRate")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Skills")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProfileId");
-
-                    b.ToTable("Profiles");
-                });
-
             modelBuilder.Entity("Entities.Bid", b =>
                 {
                     b.Property<int>("BidId")
@@ -102,37 +74,6 @@ namespace DAL.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Entities.Contract", b =>
-                {
-                    b.Property<int>("ContractId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContractId"));
-
-                    b.Property<int>("BidId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ContractId");
-
-                    b.HasIndex("BidId");
-
-                    b.ToTable("Contracts");
                 });
 
             modelBuilder.Entity("Entities.Job", b =>
@@ -198,7 +139,7 @@ namespace DAL.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContractId")
+                    b.Property<int>("BidId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PaymentDate")
@@ -210,9 +151,43 @@ namespace DAL.Migrations
 
                     b.HasKey("PaymentId");
 
-                    b.HasIndex("ContractId");
+                    b.HasIndex("BidId");
 
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("Entities.Profile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Designation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Experience")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("HourlyRate")
+                        .HasColumnType("float");
+
+                    b.Property<string>("LocationCordinates")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Skills")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProfileId");
+
+                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("Entities.Review", b =>
@@ -223,10 +198,6 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -234,18 +205,20 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FreelancerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ReviewId");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("FreelancerId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reviews");
                 });
@@ -471,17 +444,6 @@ namespace DAL.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Entities.Contract", b =>
-                {
-                    b.HasOne("Entities.Bid", "bid")
-                        .WithMany()
-                        .HasForeignKey("BidId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("bid");
-                });
-
             modelBuilder.Entity("Entities.Job", b =>
                 {
                     b.HasOne("Entities.Category", null)
@@ -495,37 +457,29 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Entities.Payment", b =>
                 {
-                    b.HasOne("Entities.Contract", "Contract")
+                    b.HasOne("Entities.Bid", "Bid")
                         .WithMany()
-                        .HasForeignKey("ContractId")
+                        .HasForeignKey("BidId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Contract");
+                    b.Navigation("Bid");
                 });
 
             modelBuilder.Entity("Entities.Review", b =>
                 {
-                    b.HasOne("Entities.User", "Client")
+                    b.HasOne("Entities.User", null)
                         .WithMany("ClientReviews")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.HasOne("Entities.User", "Freelancer")
+                    b.HasOne("Entities.User", null)
                         .WithMany("FreelancerReviews")
-                        .HasForeignKey("FreelancerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Freelancer");
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Entities.User", b =>
                 {
-                    b.HasOne("DAL.Entities.Profile", "Profile")
+                    b.HasOne("Entities.Profile", "Profile")
                         .WithMany()
                         .HasForeignKey("ProfileId");
 
