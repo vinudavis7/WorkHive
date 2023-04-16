@@ -16,10 +16,12 @@ namespace DAL
 {
     public  class AppDbContext : IdentityDbContext<User>
     {
+        private readonly IConfiguration _configuration;
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
         {
+            _configuration = configuration;
 
         }
         public AppDbContext()
