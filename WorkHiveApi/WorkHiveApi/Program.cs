@@ -15,13 +15,16 @@ using System.Text;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using System.Configuration;
+using Azure.Storage.Blobs;
+
 
 Log.Logger = new LoggerConfiguration()
              .MinimumLevel.Error() // Set the minimum log level to Error
     .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .WriteTo.File("Logs/log-{Date}.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.File("log.txt",rollingInterval: RollingInterval.Year)
+    //.WriteTo.File("Logs/log-{Date}.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,9 +40,18 @@ var connectionString = builder.Configuration.GetConnectionString("DBConnection")
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure()));
 
-builder.Services.AddIdentity<User, IdentityRole>()
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    options.User.RequireUniqueEmail = true; // This line may already be present in your file
+    options.User.AllowedUserNameCharacters = null;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 1;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
