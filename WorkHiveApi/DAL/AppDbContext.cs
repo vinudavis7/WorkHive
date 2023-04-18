@@ -39,10 +39,22 @@ namespace DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
+
+            string contentRoot = Environment.GetEnvironmentVariable("ASPNETCORE_CONTENTROOT");
+            if (string.IsNullOrEmpty(contentRoot))
+            {
+                contentRoot = AppDomain.CurrentDomain.BaseDirectory;
+            }
+
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                     .AddJsonFile(Directory.GetCurrentDirectory() +
-                    "/../WorkHiveApi/appsettings.json").Build();
+                .SetBasePath(contentRoot)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
+            //IConfigurationRoot configuration = new ConfigurationBuilder()
+            //        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            //         .AddJsonFile(Directory.GetCurrentDirectory() +
+            //        "/../WorkHiveApi/appsettings.json").Build();
             optionBuilder.UseSqlServer(configuration.GetConnectionString("DBConnection"));
 
         }
