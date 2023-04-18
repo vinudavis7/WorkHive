@@ -23,19 +23,19 @@ namespace DAL.Repository
 
                 if (!string.IsNullOrEmpty(searchParams.SearchCategory) && searchParams.SearchCategory != "All")
                 {
-                    List<Category> categoryList = _dbContext.Categories.Include(x => x.Jobs).Where(x => x.CategoryName.Contains(searchParams.SearchCategory)).ToList();
+                    List<Category> categoryList = _dbContext.Categories.Include(x => x.Jobs).Where(x => x.CategoryName.ToLower().Contains(searchParams.SearchCategory.ToLower())).ToList();
                     if (categoryList.Count == 1)
                         list = categoryList[0].Jobs.ToList();
                 }
 
                 if (!string.IsNullOrEmpty(searchParams.SearchTitle))
                 {
-                    list = list.Where(x => x.Title.Contains(searchParams.SearchTitle)).ToList();
+                    list = list.Where(x => x.Title.ToLower().Contains(searchParams.SearchTitle.ToLower())).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(searchParams.SearchLocation))
                 {
-                    list = list.Where(x => x.Location.Contains(searchParams.SearchLocation)).ToList();
+                    list = list.Where(x => x.Location.ToLower().Contains(searchParams.SearchLocation.ToLower())).ToList();
                 }
                 return list.ToList();
             }
