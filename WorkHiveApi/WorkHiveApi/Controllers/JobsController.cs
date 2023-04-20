@@ -23,7 +23,7 @@ namespace WorkHiveApi.Controllers
         {
             return _jobService.GetJobs();
         }
-        //Something new
+        //Something new added
         // GET api/<JobController>/5
         [HttpGet("{id}")]
         public string Get(int id)
