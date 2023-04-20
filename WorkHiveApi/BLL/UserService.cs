@@ -21,6 +21,7 @@ namespace BLL
         }
         public IList<Users> GetUsers()
         {
+            //try catch 
             try
             {
                 return _userRepository.GetUsers();
