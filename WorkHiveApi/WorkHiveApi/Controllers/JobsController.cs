@@ -80,5 +80,22 @@ namespace WorkHiveApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
         }
+        [HttpPost]
+        [Route("SendNotifications")]
+        public IActionResult SendNotifications()
+        {
+            try
+            {
+                var result = _jobService.SendNotifications();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
+        }
+
+
     }
 }

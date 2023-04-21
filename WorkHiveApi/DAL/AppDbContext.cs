@@ -28,7 +28,6 @@ namespace DAL
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<Payment> Payments { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Profile> Profiles { get; set; }
 
