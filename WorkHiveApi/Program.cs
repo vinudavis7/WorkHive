@@ -16,7 +16,9 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using System.Configuration;
 using Azure.Storage.Blobs;
-
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Options;
 
 Log.Logger = new LoggerConfiguration()
              .MinimumLevel.Error() // Set the minimum log level to Error
@@ -51,7 +53,30 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     options.Password.RequireUppercase = false;
 })
 .AddEntityFrameworkStores<AppDbContext>()
-.AddDefaultTokenProviders();
+.AddDefaultTokenProviders()
+.AddTokenProvider<DataProtectorTokenProvider<User>>("ShortToken");
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+    options.TokenLifespan = TimeSpan.FromDays(2));
+//.Configure<DataProtectionTokenProviderOptions>("ShortToken", options =>
+//{
+//    options.TokenLifespan = TimeSpan.FromMinutes(15);
+//    options.TokenGenerator = new DataProtectorTokenProvider<ApplicationUser>(
+//        dataProtectionProvider.Create("ShortToken"),
+//        new TokenProviderOptions
+//        {
+//            TokenLifespan = TimeSpan.FromMinutes(15),
+//            Name = "ShortToken"
+//        }
+//    ).GenerateAsync;
+//    options.TokenValidator = new DataProtectorTokenProvider<ApplicationUser>(
+//        dataProtectionProvider.Create("ShortToken"),
+//        new TokenProviderOptions
+//        {
+//            TokenLifespan = TimeSpan.FromMinutes(15),
+//            Name = "ShortToken"
+//        }
+//    ).ValidateAsync;
+//});
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

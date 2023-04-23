@@ -9,9 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Common;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,12 +27,14 @@ namespace WorkHiveApi.Controllers
     {
         private readonly ILogger<UsersController> _logger;
         private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
 
 
-        public UsersController(ILogger<UsersController> logger, IUserService userService)
+        public UsersController(ILogger<UsersController> logger, IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -165,6 +170,52 @@ namespace WorkHiveApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException);
             }
 
+        }
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        {
+
+            var resteCode = await _userService.forgotPassword(email);
+            var webAppBaseURL = _configuration.GetValue<string>("webAppBaseURL");
+            var callbackUrl = webAppBaseURL+"/user/resetPassword?email=" + email + "&resetCode=" + resteCode;
+            string subject = "Reset Password";
+            string body = $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>";
+            SendEmail(email, subject, body);
+            return Ok(true);
+        }
+
+        [HttpPost("ResetPassowrd")]
+        public async Task<IActionResult> ResetPassowrd([FromBody] ResetPasswordRequest password)
+        {
+            var result = await _userService.ResetPassword(password);
+            return Ok(result);
+        }
+
+
+        public static void SendEmail(string email, string subject, string body)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient smtp = new SmtpClient();
+                message.From = new MailAddress("notificationsworkhive@gmail.com");
+                message.Subject = subject;
+                message.IsBodyHtml = true; //to make message body as html
+                message.Body = body;
+                smtp.Port = 587;
+                smtp.Host = "smtp.gmail.com"; //for gmail host
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("notificationsworkhive@gmail.com", "xraypifjhdxqbwvy");
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                message.To.Add(new MailAddress(email));
+                smtp.Send(message);
+
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }

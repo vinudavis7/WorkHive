@@ -67,7 +67,7 @@ namespace WorkHiveApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] JobRequest job)
+        public IActionResult Put([FromBody] UpdateJobRequest job)
         {
             try
             {
@@ -80,6 +80,21 @@ namespace WorkHiveApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
         }
+
+        [HttpDelete]
+        public IActionResult Delete(int jobId)
+        {
+            try
+            {
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
+            }
+        }
+
         [HttpPost]
         [Route("SendNotifications")]
         public IActionResult SendNotifications()

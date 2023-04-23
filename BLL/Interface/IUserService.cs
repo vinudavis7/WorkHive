@@ -22,6 +22,8 @@ namespace BLL.Interface
         public bool UpdateUser(ProfileViewModel user);
         public bool UpdateProfile(ProfileViewModel user);
         public List<User> GetUsersByRole(string role);
+        public Task<string> forgotPassword(string email);
+        public Task<bool> ResetPassword(ResetPasswordRequest passwordRequest);
 
 
     }

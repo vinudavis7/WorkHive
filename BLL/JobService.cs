@@ -115,26 +115,31 @@ namespace BLL
                 throw ex;
             }
         }
-        public Job UpdateJob(JobRequest job)
+        public Job UpdateJob(UpdateJobRequest job)
         {
             try
             {
-                Job obj = new Job
-                {
-                    Title = job.Title,
-                    DatePosted = job.DatePosted,
-                    Budget = job.Budget,
-                    Deadline = job.Deadline,
-                    Description = job.Description,
-                    JobType = job.JobType,
-                    Location = job.Location,
-                    SkillTags = job.SkillTags,
-                };
                 using (AppDbContext context = new AppDbContext())
                 {
-                    _jobRepository.UpdateJob(context, obj);
+                   var result= _jobRepository.UpdateJob(context, job);
                     context.SaveChanges();
-                    return obj;
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool DeleteJob(int jobId)
+        {
+            try
+            {
+                using (AppDbContext context = new AppDbContext())
+                {
+                   // _jobRepository.UpdateJob(context, jobId);
+                    context.SaveChanges();
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -163,7 +168,14 @@ namespace BLL
                         string emailBody = "Dear User. New job/s have been posted in WorkHive<br><br>";
                         emailBody = emailBody + html;
                         List<string> users = new List<string>();
-                        users.Add("vinudavis8@gmail.com");
+                        var userList = _userRepository.GetUsersByRole(context,"Freelancer");
+                        foreach(User user in userList)
+                        {
+                            if(user.Profile.ReceiveJobNotifications)
+                            {
+                                users.Add(user.Email);
+                            }
+                        }
                         SendEmail(emailBody, users);
                     }
                 }

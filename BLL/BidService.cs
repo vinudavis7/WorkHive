@@ -31,7 +31,8 @@ namespace BLL
             {
                 using (AppDbContext context = new AppDbContext())
                 {
-                    return _bidRepository.GetBids(context);
+                    var bids= _bidRepository.GetBids(context);
+                    return bids;
                 }
             }
             catch (Exception ex)

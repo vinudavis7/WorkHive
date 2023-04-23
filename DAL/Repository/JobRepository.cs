@@ -92,7 +92,7 @@ namespace DAL.Repository
                 throw ex;
             }
         }
-        public Job UpdateJob(AppDbContext _dbContext, Job job)
+        public Job UpdateJob(AppDbContext _dbContext, UpdateJobRequest job)
         {
             try
             {

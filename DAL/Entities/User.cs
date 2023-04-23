@@ -22,12 +22,13 @@ namespace Entities
 
         public virtual ICollection<Bid> Bids { get; set; } =
         new List<Bid>();
+        public virtual ICollection<Job> Jobs { get; set; } =
+       new List<Job>();
         public virtual ICollection<Review> FreelancerReviews { get; set; } =
         new List<Review>();
         public virtual ICollection<Review> ClientReviews { get; set; } =
        new List<Review>();
-        public virtual ICollection<Job> Jobs { get; set; }=
-        new List<Job>();
+       
 
 
 

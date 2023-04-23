@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class migration1 : Migration
+    public partial class mig1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,7 +36,8 @@ namespace DAL.Migrations
                     HourlyRate = table.Column<double>(type: "float", nullable: true),
                     Skills = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LocationCordinates = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<int>(type: "int", nullable: true)
+                    Rating = table.Column<int>(type: "int", nullable: true),
+                    ReceiveJobNotifications = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -283,28 +284,6 @@ namespace DAL.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
-                {
-                    PaymentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BidId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.PaymentId);
-                    table.ForeignKey(
-                        name: "FK_Payments_Bids_BidId",
-                        column: x => x.BidId,
-                        principalTable: "Bids",
-                        principalColumn: "BidId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Bids_JobId",
                 table: "Bids",
@@ -324,11 +303,6 @@ namespace DAL.Migrations
                 name: "IX_Jobs_UserId",
                 table: "Jobs",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Payments_BidId",
-                table: "Payments",
-                column: "BidId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserId",
@@ -389,7 +363,7 @@ namespace DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "Bids");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
@@ -410,13 +384,10 @@ namespace DAL.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Bids");
+                name: "Jobs");
 
             migrationBuilder.DropTable(
                 name: "Role");
-
-            migrationBuilder.DropTable(
-                name: "Jobs");
 
             migrationBuilder.DropTable(
                 name: "Categories");

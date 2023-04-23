@@ -13,7 +13,7 @@ namespace BLL.Interface
     public List<Job> GetJobs(JobSearchViewModel searchParams);
         public Job GetJobDetails(int jobId);
         public Job CreateJob(JobRequest job);
-        public Job UpdateJob(JobRequest job);
+        public Job UpdateJob(UpdateJobRequest job);
         public int GetJobCount();
         public List<Job> GetRecentJobs();
 

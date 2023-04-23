@@ -74,6 +74,7 @@ namespace DAL.Repository
             {
                 List<User> userList = dbContext.Users
                 .Include(user => user.Profile)
+                .Include(user => user.Bids)
                 .ToList();
                 return userList;
             }
@@ -186,6 +187,7 @@ namespace DAL.Repository
                 profile.Description = user.Description;
                 profile.HourlyRate = user.HourlyRate;
                 profile.LocationCordinates = user.LocationCordinates;
+                profile.ReceiveJobNotifications = user.ReceiveJobNotifications;
 
                 return true;
             }

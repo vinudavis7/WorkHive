@@ -1,15 +1,18 @@
 ﻿using BLL.Interface;
+using Castle.Core.Smtp;
 using DAL;
 using DAL.Repository;
 using DAL.Repository.Interface;
 using Entities;
 using Entities.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
@@ -165,6 +168,19 @@ namespace BLL
             }
         }
 
+        public async Task<string> forgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+           // var result = await _userManager.ResetPasswordAsync(user,code, "aaas");
+            return code;
+        }
+        public async Task<bool> ResetPassword(ResetPasswordRequest passwordRequest)
+        {
+            var user = await _userManager.FindByEmailAsync(passwordRequest.Email);
+            var result = await _userManager.ResetPasswordAsync(user, passwordRequest.Code, passwordRequest.Password);
+            return result.Succeeded;
+        }
 
 
     }

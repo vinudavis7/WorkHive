@@ -4,7 +4,6 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230416142445_migration1")]
-    partial class migration1
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,34 +128,6 @@ namespace DAL.Migrations
                     b.ToTable("Jobs");
                 });
 
-            modelBuilder.Entity("Entities.Payment", b =>
-                {
-                    b.Property<int>("PaymentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BidId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PaymentId");
-
-                    b.HasIndex("BidId");
-
-                    b.ToTable("Payments");
-                });
-
             modelBuilder.Entity("Entities.Profile", b =>
                 {
                     b.Property<int>("ProfileId")
@@ -184,6 +153,9 @@ namespace DAL.Migrations
 
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
+
+                    b.Property<bool>("ReceiveJobNotifications")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Skills")
                         .HasColumnType("nvarchar(max)");
@@ -456,17 +428,6 @@ namespace DAL.Migrations
                     b.HasOne("Entities.User", null)
                         .WithMany("Jobs")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Entities.Payment", b =>
-                {
-                    b.HasOne("Entities.Bid", "Bid")
-                        .WithMany()
-                        .HasForeignKey("BidId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bid");
                 });
 
             modelBuilder.Entity("Entities.Review", b =>
