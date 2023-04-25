@@ -31,7 +31,7 @@ namespace BLL
             {
                 using (AppDbContext context = new AppDbContext())
                 {
-                    var bids= _bidRepository.GetBids(context);
+                    var bids = _bidRepository.GetBids(context);
                     return bids;
                 }
             }
@@ -73,7 +73,9 @@ namespace BLL
                     Job job = _jobRepository.GetJobDetails(context, bid.JobId);
 
                     _bidRepository.CreateBid(context, bidObj);
+                    //adding the bid to freelancer
                     _userRepository.AddBidToCollection(context, bidObj, user);
+                    //adding the bid to jobs collection
                     _jobRepository.AddBidToCollection(context, bidObj, job);
 
                     context.SaveChanges();

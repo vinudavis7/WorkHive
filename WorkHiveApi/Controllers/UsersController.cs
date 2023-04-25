@@ -16,8 +16,8 @@ using System.Security.Claims;
 using System.Text;
 using static System.Net.WebRequestMethods;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+//Note :User model is derived  from IdentityUser of Identity framework
+//so IUserService interface of the framework  is used to handle login,registration and reset password operations
 namespace WorkHiveApi.Controllers
 {
 
@@ -69,7 +69,7 @@ namespace WorkHiveApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
         }
-
+        
         [HttpGet("GetAll")]
         public IActionResult GetAllUsers()
         {
@@ -112,6 +112,7 @@ namespace WorkHiveApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
         }
+        //used  during the registration process
         [HttpGet("CheckIfEmailExists/{email}")]
         public IActionResult CheckIfEmailExists(string email)
         {
@@ -156,31 +157,21 @@ namespace WorkHiveApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
         }
-        [HttpGet("health")]
-        public async Task<IActionResult> CheckHealthAsync()
-        {
-            try
-            {
-                var userList = _userService.GetUsers();
-                return Ok(userList);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error");
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException);
-            }
-
-        }
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] string email)
         {
 
             var resteCode = await _userService.forgotPassword(email);
             var webAppBaseURL = _configuration.GetValue<string>("webAppBaseURL");
-            var callbackUrl = webAppBaseURL+"/user/resetPassword?email=" + email + "&resetCode=" + resteCode;
+            var callbackUrl = webAppBaseURL + "/user/resetPassword?email=" + email + "&resetCode=" + resteCode;
+            //when user click in the link in the email,they  will be redirected to resetPassword page in MVC application
             string subject = "Reset Password";
             string body = $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>";
-            SendEmail(email, subject, body);
+
+            Helper helper = new Helper(_configuration);
+            List<string> emailList = new List<string>();
+            emailList.Add(email);
+            helper.SendEmail(body, subject, emailList);
             return Ok(true);
         }
 
@@ -189,33 +180,6 @@ namespace WorkHiveApi.Controllers
         {
             var result = await _userService.ResetPassword(password);
             return Ok(result);
-        }
-
-
-        public static void SendEmail(string email, string subject, string body)
-        {
-            try
-            {
-                MailMessage message = new MailMessage();
-                SmtpClient smtp = new SmtpClient();
-                message.From = new MailAddress("notificationsworkhive@gmail.com");
-                message.Subject = subject;
-                message.IsBodyHtml = true; //to make message body as html
-                message.Body = body;
-                smtp.Port = 587;
-                smtp.Host = "smtp.gmail.com"; //for gmail host
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("notificationsworkhive@gmail.com", "xraypifjhdxqbwvy");
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                message.To.Add(new MailAddress(email));
-                smtp.Send(message);
-
-            }
-            catch (Exception ex)
-            {
-            }
         }
     }
 }

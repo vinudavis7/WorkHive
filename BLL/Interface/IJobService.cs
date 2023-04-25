@@ -14,10 +14,9 @@ namespace BLL.Interface
         public Job GetJobDetails(int jobId);
         public Job CreateJob(JobRequest job);
         public Job UpdateJob(UpdateJobRequest job);
+        public bool DeleteJob(int jobId);
         public int GetJobCount();
         public List<Job> GetRecentJobs();
-
         public bool SendNotifications();
-        
     }
 }

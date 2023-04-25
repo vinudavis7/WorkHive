@@ -15,8 +15,10 @@ namespace DAL.Repository.Interface
         public int GetJobCount(AppDbContext context);
         public Job CreateJob(AppDbContext context , Job job);
         public Job UpdateJob(AppDbContext context , UpdateJobRequest job);
+        public bool DeleteJob(AppDbContext context, Job job);
         public List<Job> GetRecentJobs(AppDbContext context);
         public void AddBidToCollection(AppDbContext context, Bid bid, Job job);
+        public void RemoveBidFromCollection(AppDbContext context, Job job);
 
     }
 }

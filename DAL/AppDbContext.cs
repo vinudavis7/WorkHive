@@ -32,17 +32,12 @@ namespace DAL
         public DbSet<Profile> Profiles { get; set; }
 
 
-
-
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-
             string contentRoot = Environment.GetEnvironmentVariable("ASPNETCORE_CONTENTROOT");
             if (string.IsNullOrEmpty(contentRoot))
             {
-                contentRoot = AppDomain.CurrentDomain.BaseDirectory;
+             contentRoot = AppDomain.CurrentDomain.BaseDirectory;
             }
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -50,16 +45,13 @@ namespace DAL
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build();
 
-            //IConfigurationRoot configuration = new ConfigurationBuilder()
-            //        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            //         .AddJsonFile(Directory.GetCurrentDirectory() +
-            //        "/../WorkHiveApi/appsettings.json").Build();
-            optionBuilder.UseSqlServer(configuration.GetConnectionString("DBConnection"));
+         optionBuilder.UseSqlServer(configuration.GetConnectionString("DBConnection"));
 
         }
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
             base.OnModelCreating(modelbuilder);
+            //renaming the default tables
             modelbuilder.Entity<User>(entity =>
             {
                 entity.ToTable(name: "User");
@@ -88,18 +80,7 @@ namespace DAL
             {
                 entity.ToTable("UserTokens");
             });
-            //modelbuilder.Entity<Review>()
-            //.HasOne(r => r.Freelancer)
-            //.WithMany(u => u.FreelancerReviews)
-            //.HasForeignKey(r => r.FreelancerId)
-            //.OnDelete(DeleteBehavior.Restrict);
-
-            //modelbuilder.Entity<Review>()
-            //    .HasOne(r => r.Client)
-            //    .WithMany(u => u.ClientReviews)
-            //    .HasForeignKey(r => r.ClientId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
+            
         }
     }
 }

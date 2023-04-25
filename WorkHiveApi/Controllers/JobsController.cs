@@ -4,7 +4,6 @@ using Entities;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WorkHiveApi.Controllers
 {
@@ -20,6 +19,8 @@ namespace WorkHiveApi.Controllers
             _jobService = jobService;
             _logger = logger;
         }
+        //to get jobs based on search criteria
+        //if search parameters are null, will return all the jobs from database
         [HttpGet]
         public IActionResult GetAll([FromQuery] JobSearchViewModel searchParams)
         {
@@ -81,12 +82,13 @@ namespace WorkHiveApi.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int jobId)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {
-                return Ok();
+                var result=_jobService.DeleteJob(id);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -95,6 +97,7 @@ namespace WorkHiveApi.Controllers
             }
         }
 
+        //this endpoint will be called by Azure functions scheduler to send email notifications about the jobs posted daily
         [HttpPost]
         [Route("SendNotifications")]
         public IActionResult SendNotifications()

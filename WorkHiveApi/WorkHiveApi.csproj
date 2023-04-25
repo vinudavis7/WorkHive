@@ -32,9 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="log.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="log2023.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

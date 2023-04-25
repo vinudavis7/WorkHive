@@ -19,6 +19,7 @@ namespace WorkHiveApi.Controllers
             _dashboardService = dashboardService;
             _logger = logger;
         }
+        //data to be used in landing page
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -34,6 +35,7 @@ namespace WorkHiveApi.Controllers
             }
 
         }
+        //data to be displayed in admin dashboard
         [HttpGet]
         [Route("GetDashboardSummary")]
         public async Task<IActionResult> GetDashboardSummary()

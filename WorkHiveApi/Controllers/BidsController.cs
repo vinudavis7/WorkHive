@@ -1,13 +1,14 @@
 ﻿using BLL.Interface;
 using Entities;
 using Entities.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WorkHiveApi.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class BidsController : ControllerBase
@@ -20,6 +21,7 @@ namespace WorkHiveApi.Controllers
             _logger = logger;
         }
 
+        //endpoint to get all bids
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -30,7 +32,7 @@ namespace WorkHiveApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error");
+                _logger.LogError(ex, "Error"); //error will be witten into a text file in the root path using serilog
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
 
@@ -43,6 +45,7 @@ namespace WorkHiveApi.Controllers
         {
             try
             {
+                //to update the status of the bid
                 var result = _bidService.UpdateBidStatus(bidId);
                 return Ok(result);
             }

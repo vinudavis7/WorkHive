@@ -45,7 +45,9 @@ namespace BLL
                     obj.DateCreated = DateTime.Now;
 
                     _reviewRepository.CreateReview(context, obj);
+                    //adding the freelancer  to whom review is created
                     _userRepository.AddFreelancerReviewToCollection(context, obj, freelancer);
+                    //adding the client who is writing the review
                     _userRepository.AddClientReviewToCollection(context, obj, client);
 
                     context.SaveChanges();

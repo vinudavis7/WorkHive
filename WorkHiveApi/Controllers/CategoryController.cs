@@ -2,7 +2,6 @@
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WorkHiveApi.Controllers
 {
@@ -49,6 +48,7 @@ namespace WorkHiveApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred");
             }
         }
+        //to get category with more number of jobs
         [HttpGet("GetPopular")]
         public IActionResult GetPopularCategories()
         {

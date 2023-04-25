@@ -14,27 +14,17 @@ using Serilog;
 using System.Text;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
-using System.Configuration;
-using Azure.Storage.Blobs;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Extensions.Options;
+
 
 Log.Logger = new LoggerConfiguration()
-             .MinimumLevel.Error() // Set the minimum log level to Error
+    .MinimumLevel.Error() 
     .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .WriteTo.File("log.txt",rollingInterval: RollingInterval.Year)
-    //.WriteTo.File("Logs/log-{Date}.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Add services to the container.
-
-
 
 
 var connectionString = builder.Configuration.GetConnectionString("DBConnection");
@@ -44,7 +34,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
-    options.User.RequireUniqueEmail = true; // This line may already be present in your file
+    options.User.RequireUniqueEmail = true;
     options.User.AllowedUserNameCharacters = null;
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 1;
@@ -57,27 +47,6 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddTokenProvider<DataProtectorTokenProvider<User>>("ShortToken");
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
     options.TokenLifespan = TimeSpan.FromDays(2));
-//.Configure<DataProtectionTokenProviderOptions>("ShortToken", options =>
-//{
-//    options.TokenLifespan = TimeSpan.FromMinutes(15);
-//    options.TokenGenerator = new DataProtectorTokenProvider<ApplicationUser>(
-//        dataProtectionProvider.Create("ShortToken"),
-//        new TokenProviderOptions
-//        {
-//            TokenLifespan = TimeSpan.FromMinutes(15),
-//            Name = "ShortToken"
-//        }
-//    ).GenerateAsync;
-//    options.TokenValidator = new DataProtectorTokenProvider<ApplicationUser>(
-//        dataProtectionProvider.Create("ShortToken"),
-//        new TokenProviderOptions
-//        {
-//            TokenLifespan = TimeSpan.FromMinutes(15),
-//            Name = "ShortToken"
-//        }
-//    ).ValidateAsync;
-//});
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
@@ -103,9 +72,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddHealthChecks();
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
 {
@@ -135,11 +102,8 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+//for error logging
 builder.Host.UseSerilog();
-
-
-//Add repository
-//builder.Services.AddScoped<UserManager<User>, UserManager<User>>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
@@ -151,7 +115,6 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 //Add services
 
 builder.Services.AddScoped<UserManager<User>>();
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<IBidService, BidService>();
@@ -165,12 +128,9 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
     app.UseSwagger();
     app.UseSwaggerUI();
-//}
+
 app.UseHealthChecks("/healthz", new HealthCheckOptions
 {
     ResponseWriter = async (context, report) =>
@@ -190,7 +150,6 @@ app.UseHealthChecks("/healthz", new HealthCheckOptions
 });
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapControllers();

@@ -10,15 +10,9 @@ namespace Entities
 {
     public class Review
     {
-  
         public int ReviewId { get; set; }
         public string Description { get; set; }
         public int Rating { get; set; }
         public DateTime DateCreated { get; set; }
-        //public string FreelancerId { get; set; }
-        //public virtual User Freelancer { get; set; }
-
-        //public string ClientId { get; set; }
-        //public virtual User Client { get; set; }
     }
 }

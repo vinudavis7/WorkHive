@@ -70,7 +70,7 @@ namespace BLL
                     var FreelancersCount =await _userRepository.GetUserCount(_userManager, "Freelancer");
                     var ClientsCount = await _userRepository.GetUserCount(_userManager, "Client");
                     var ProposalsCount =  _proposalRepository.GetBidCount(context);
-
+                    //count to be shown in admin dashboard page
                     summary.Add("Freelancers", FreelancersCount);
                     summary.Add("Clients", ClientsCount);
                     summary.Add("Jobs", jobsCount);

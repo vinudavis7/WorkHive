@@ -48,7 +48,7 @@ namespace DAL.Repository
         {
             try
             {
-                return _dbContext.Jobs.Where(x => x.JobId == jobId).FirstOrDefault();
+                return _dbContext.Jobs.Where(x => x.JobId == jobId).Include(job=>job.Bids).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -110,10 +110,29 @@ namespace DAL.Repository
                 throw ex;
             }
         }
-
+        public bool DeleteJob(AppDbContext context, Job job)
+        {
+            try
+            {
+                var obj = context.Jobs.Remove(job);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public void AddBidToCollection(AppDbContext context, Bid bid, Job job)
         {
             job.Bids.Add(bid);
+        }
+        public void RemoveBidFromCollection(AppDbContext context, Job job)
+        {
+            for (int i = job.Bids.Count - 1; i >= 0; i--)
+            {
+                var bid = job.Bids.ElementAt(i);
+                job.Bids.Remove(bid);
+            }
         }
     }
 }

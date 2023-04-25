@@ -1,21 +1,10 @@
 ﻿using BLL.Interface;
-using Castle.Core.Smtp;
 using DAL;
-using DAL.Repository;
 using DAL.Repository.Interface;
 using Entities;
 using Entities.ViewModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace BLL
 {
@@ -43,6 +32,8 @@ namespace BLL
                         ProfileImage = model.ProfileImage,
                         Location = model.Location
                     };
+                    //if registering as freelancer, create a profile by default
+                    //other profiles can be updated later after login
                     if (model.UserType == "Freelancer")
                     {
                         Profile profile = new Profile
@@ -51,7 +42,7 @@ namespace BLL
                         };
                         identityUser.Profile = profile;
                     }
-
+                    //using identity framework
                     var result = await _userManager.CreateAsync(identityUser, model.Password);
                     if (result.Succeeded)
                     {
@@ -60,9 +51,6 @@ namespace BLL
                     }
                     else
                         return result.ToString();
-
-
-
                 }
             }
             catch (Exception ex)
@@ -71,7 +59,7 @@ namespace BLL
             }
         }
         public async Task<LoginResponse> Login(LoginRequest model)
-        {
+        {   //using identity framework options
             using (_userManager)
             {
                 var res = await _userRepository.Login(_userManager, model);
@@ -94,10 +82,10 @@ namespace BLL
                 throw ex;
             }
         }
+        //to check for duplicate emails during registration
         public bool CheckIfEmailExists(string email)
         {
             return _userRepository.CheckIfEmailExists(email, _userManager).Result;
-
         }
 
         public bool UpdateUser(ProfileViewModel user)
@@ -168,13 +156,14 @@ namespace BLL
             }
         }
 
+        //using Identity framework
         public async Task<string> forgotPassword(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-           // var result = await _userManager.ResetPasswordAsync(user,code, "aaas");
             return code;
         }
+        //using Identity framework
         public async Task<bool> ResetPassword(ResetPasswordRequest passwordRequest)
         {
             var user = await _userManager.FindByEmailAsync(passwordRequest.Email);

@@ -13,6 +13,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace BLL
 {
@@ -21,12 +22,15 @@ namespace BLL
         private readonly IJobRepository _jobRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IConfiguration _configuration;
 
-        public JobService(IJobRepository jobRepository, IUserRepository userRepository, ICategoryRepository categoryRepository)
+        public JobService(IJobRepository jobRepository, IUserRepository userRepository, ICategoryRepository categoryRepository, IConfiguration configuration)
         {
             _jobRepository = jobRepository;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
+            _configuration = configuration;
+
         }
         public List<Job> GetJobs(JobSearchViewModel searchParams)
         {
@@ -121,7 +125,7 @@ namespace BLL
             {
                 using (AppDbContext context = new AppDbContext())
                 {
-                   var result= _jobRepository.UpdateJob(context, job);
+                    var result = _jobRepository.UpdateJob(context, job);
                     context.SaveChanges();
                     return result;
                 }
@@ -137,9 +141,13 @@ namespace BLL
             {
                 using (AppDbContext context = new AppDbContext())
                 {
-                   // _jobRepository.UpdateJob(context, jobId);
+                    //fetch the job to be deleted
+                    var job = _jobRepository.GetJobDetails(context, jobId);
+                    //removing all bids associated with this job
+                    _jobRepository.RemoveBidFromCollection(context, job);
+                    var result = _jobRepository.DeleteJob(context, job);
                     context.SaveChanges();
-                    return true;
+                    return result;
                 }
             }
             catch (Exception ex)
@@ -154,29 +162,33 @@ namespace BLL
             {
                 using (AppDbContext context = new AppDbContext())
                 {
-
+                    //get all jobs posted on the current day
                     var jobs = _jobRepository.GetRecentJobs(context);
                     string html = "";
                     if (jobs.Count > 0)
                     {
+                        //create links  to jobs page using job title and jobID
                         foreach (Job item in jobs.AsEnumerable())
                         {
-
                             string jobTitle = item.Title;
-                            html += "<a href='#'>" + jobTitle + "</a><br>";
+                            string url = _configuration.GetValue<string>("webAppBaseURL").ToString() + "/Jobs/JobDetails?jobId=" + item.JobId;
+                            html += "<a href='"+ url + "'>" + jobTitle + "</a><br>";
                         }
-                        string emailBody = "Dear User. New job/s have been posted in WorkHive<br><br>";
+                        string emailBody =_configuration.GetValue<string>("notificationEmailTemplate");
                         emailBody = emailBody + html;
+                        string subject= "New Job Notification";
                         List<string> users = new List<string>();
-                        var userList = _userRepository.GetUsersByRole(context,"Freelancer");
-                        foreach(User user in userList)
+                        //fetch all users who enabled job notifications
+                        var userList = _userRepository.GetUsersByRole(context, "Freelancer");
+                        foreach (User user in userList)
                         {
-                            if(user.Profile.ReceiveJobNotifications)
+                            if (user.Profile.ReceiveJobNotifications)
                             {
                                 users.Add(user.Email);
                             }
                         }
-                        SendEmail(emailBody, users);
+                        Helper helper = new Helper(_configuration);
+                        helper.SendEmail(emailBody, subject, users);
                     }
                 }
                 return true;
@@ -186,33 +198,6 @@ namespace BLL
                 throw ex;
             }
         }
-        public static void SendEmail(string htmlString, List<string> users)
-        {
-            try
-            {
-                MailMessage message = new MailMessage();
-                SmtpClient smtp = new SmtpClient();
-                message.From = new MailAddress("notificationsworkhive@gmail.com");
-                message.Subject = "New Job Notification";
-                message.IsBodyHtml = true; //to make message body as html
-                message.Body = htmlString;
-                smtp.Port = 587;
-                smtp.Host = "smtp.gmail.com"; //for gmail host
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("notificationsworkhive@gmail.com", "xraypifjhdxqbwvy");
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                foreach (var email in users)
-                {
-                    message.To.Add(new MailAddress(email));
-                    smtp.Send(message);
-                }
-
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+      
     }
 }

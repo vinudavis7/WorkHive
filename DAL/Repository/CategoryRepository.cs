@@ -68,7 +68,7 @@ namespace DAL.Repository
         {
             try
             {
-                var recentCategories = _dbContext.Categories.OrderByDescending(p => p.CategoryId).Take(5).ToList();
+                var recentCategories = _dbContext.Categories.Include(cat=>cat.Jobs).OrderByDescending(cat => cat.Jobs.Count).Take(5).ToList();
                 return recentCategories;
             }
             catch (Exception ex)
