@@ -60,20 +60,6 @@ namespace BLL
                 throw ex;
             }
         }
-        public int GetJobCount()
-        {
-            try
-            {
-                using (AppDbContext context = new AppDbContext())
-                {
-                    return _jobRepository.GetJobCount(context);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public List<Job> GetRecentJobs()
         {
             try
@@ -155,7 +141,6 @@ namespace BLL
                 throw ex;
             }
         }
-
         public bool SendNotifications()
         {
             try

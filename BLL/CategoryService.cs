@@ -48,8 +48,6 @@ namespace BLL
                 throw ex;
             }
         }
-
-
         public  List<Category> GetPopularCategories()
         {
             try
@@ -64,7 +62,6 @@ namespace BLL
                 throw ex;
             }
         }
-
         public Category Createcategory(string categoryName)
         {
             try

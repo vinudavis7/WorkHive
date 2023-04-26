@@ -54,7 +54,6 @@ namespace BLL
                 throw ex;
             }
         }
-
         public Bid CreateBid(BidRequest bid)
         {
             try
@@ -87,7 +86,6 @@ namespace BLL
                 throw ex;
             }
         }
-
         public bool UpdateBidStatus(int proposalId)
         {
             try
