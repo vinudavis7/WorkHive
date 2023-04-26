@@ -186,6 +186,7 @@ namespace DAL.Repository
                 profile.Designation = user.Designation;
                 profile.Description = user.Description;
                 profile.HourlyRate = user.HourlyRate;
+                if(user.LocationCordinates!=null)
                 profile.LocationCordinates = user.LocationCordinates;
                 profile.ReceiveJobNotifications = user.ReceiveJobNotifications;
 
