@@ -1,0 +1,57 @@
+2023-04-26 15:31:24.366 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-26 15:31:24.582 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 579.5505 ms
+2023-04-26 15:34:25.800 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-26 15:34:25.821 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 34941.4538 ms
+2023-04-26 15:34:54.073 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-26 15:34:54.075 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 16100.8467 ms
+2023-04-26 15:35:25.742 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-26 15:35:25.743 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 7047.0879 ms
+2023-04-26 15:36:57.645 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-26 15:36:57.649 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 47382.4387 ms
+2023-04-26 15:44:54.900 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-26 15:44:55.095 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 182568.6134 ms
+2023-04-26 15:46:47.034 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-26 15:46:47.042 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 41108.7550 ms
+2023-04-26 15:55:06.368 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-26 15:55:06.397 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 237823.7874 ms
+2023-04-30 18:21:11.169 +01:00 [ERR] Error
+Microsoft.Data.SqlClient.SqlException (0x80131904): Login failed for user 'workhive'.
+   at BLL.DashboardService.GetDashboardData() in D:\Works\System design project\WorkHiveApi\BLL\DashboardService.cs:line 55
+   at WorkHiveApi.Controllers.DashboardController.Get() in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\DashboardController.cs:line 28
+ClientConnectionId:4fc0057a-b86a-4693-a7b2-d173e319c6ee
+Error Number:18456,State:1,Class:14
+2023-04-30 18:21:11.688 +01:00 [ERR] HTTP GET /api/Dashboard responded 500 in 14814.0081 ms
+2023-04-30 18:24:54.618 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-30 18:24:54.905 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 57540.6454 ms
+2023-04-30 18:25:24.882 +01:00 [ERR] Error
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at BLL.UserService.UpdateProfile(ProfileViewModel user) in D:\Works\System design project\WorkHiveApi\BLL\UserService.cs:line 123
+   at WorkHiveApi.Controllers.UsersController.UpdateProfile(ProfileViewModel userDetails) in D:\Works\System design project\WorkHiveApi\WorkHiveApi\Controllers\UsersController.cs:line 151
+2023-04-30 18:25:24.886 +01:00 [ERR] HTTP PUT /api/Users/UpdateProfile responded 500 in 6168.9519 ms

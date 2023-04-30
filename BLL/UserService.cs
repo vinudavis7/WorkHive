@@ -42,6 +42,7 @@ namespace BLL
                             Skills="",
                             Experience=0,
                             Rating=0,
+                            Designation=""
                         };
                         identityUser.Profile = profile;
                     }
