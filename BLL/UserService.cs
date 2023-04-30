@@ -39,6 +39,9 @@ namespace BLL
                         Profile profile = new Profile
                         {
                             Description = "",
+                            Skills="",
+                            Experience=0,
+                            Rating=0,
                         };
                         identityUser.Profile = profile;
                     }
